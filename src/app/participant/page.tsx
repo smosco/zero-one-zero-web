@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Participant() {
@@ -19,33 +19,55 @@ export default function Participant() {
       { participantId: 4, participantName: '니노', isSelected: false },
     ],
   };
+  const isSelected = selectedUser !== '';
+  const router = useRouter();
+
+  const changeUser = (userName: string) => {
+    if (selectedUser === userName) {
+      setSelectedUser('');
+    } else {
+      setSelectedUser(userName);
+    }
+  };
 
   return (
-    <div className="w-screen max-w-[360px] mx-auto h-screen px-8 pt-32 py-16 flex flex-col gap-16 items-center bg-gray-200 ">
-      <h1 className="w-full text-center">{vote.voteTitle}</h1>
-      <ul className="w-full grid grid-cols-2 gap-4 ">
-        {vote?.participantList.map((item) => (
-          <li
-            key={item.participantId}
-            className="h-[140px] flex justify-center items-center relative rounded-md bg-gray-400 "
-          >
-            <p>{item.participantName}</p>
-            {item.isSelected && (
-              <Image
-                src="/images/completeVote.png"
-                width={50}
-                height={50}
-                alt="doneVote icon"
-                className="absolute top-0 right-0"
-              />
-            )}
-          </li>
-        ))}
-      </ul>
-
-      <Link href="/vote" className="w-full h-16 flex justify-center items-center rounded-md bg-gray-400">
-        투표하러 가기
-      </Link>
+    <div className="max-w-sm mx-auto">
+      <div className="flex flex-col gap-16 px-6 py-32 bg-black">
+        <h1 className="w-full text-center">{vote.voteTitle}</h1>
+        <ul className="w-full grid grid-cols-2 gap-4 ">
+          {vote?.participantList.map((item) => (
+            <li
+              key={item.participantId}
+              onClick={() => {
+                changeUser(item.participantName);
+              }}
+              className={`h-[140px] flex justify-center items-center relative rounded-md overflow-hidden ${
+                selectedUser === item.participantName ? 'bg-[#f7d44c]' : 'bg-[#f6ecc9]'
+              }`}
+            >
+              <p className="text-lg font-bold">{item.participantName}</p>
+              {item.isSelected && (
+                <Image
+                  src="/images/completeVote.png"
+                  width={50}
+                  height={50}
+                  alt="doneVote icon"
+                  className="absolute top-0 right-0 "
+                />
+              )}
+            </li>
+          ))}
+        </ul>
+        <button
+          disabled={!isSelected}
+          onClick={() => router.push('/vote')}
+          className={`w-full h-16 flex justify-center items-center rounded-md bg-[#eb7a53] ${
+            isSelected ? 'opacity-100' : 'opacity-70'
+          }`}
+        >
+          투표하러 가기
+        </button>
+      </div>
     </div>
   );
 }
