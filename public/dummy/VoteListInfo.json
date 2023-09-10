@@ -1,0 +1,33 @@
+{
+  "voteId": 1,
+  "voteCreator": "키유",
+  "voteTitle": "오늘 점심은 뭐로 먹을까요?",
+  "voteDescription": "점심은 맛있는 걸로 먹을겁니다.",
+  "selectList": [
+    { "voteLabel": "짬뽕", "voteId": 1 },
+    { "voteLabel": "짜장면", "voteId": 2 },
+    { "voteLabel": "울면", "voteId": 3 }
+  ],
+  "participantList": [
+    {
+      "participantId": 2,
+      "participantName": "김키유",
+      "isSelected": false
+    },
+    {
+      "participantId": 3,
+      "participantName": "우리",
+      "isSelected": false
+    },
+    {
+      "participantId": 4,
+      "participantName": "팡이",
+      "isSelected": true
+    },
+    {
+      "participantId": 5,
+      "participantName": "제리",
+      "isSelected": true
+    }
+  ]
+}
