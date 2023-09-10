@@ -1,6 +1,6 @@
 'use client';
 
-import axios from 'axios';
+import { fetchAndGetVote } from '@/apis/api';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -10,16 +10,6 @@ export default function Entrance() {
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  const getVote = async () => {
-    try {
-      const { data } = await axios.get('/dummy/vote.json');
-      return data;
-    } catch (err) {
-      setIsError(true);
-      setErrorMessage('투표 정보를 가져오는데 문제가 생겼어요!');
-    }
-  };
-
   // code를 통해서 voteId 가져오기
   // voteId를 통해서 해당 voteId의 vote 정보 가져오기
 
@@ -28,10 +18,13 @@ export default function Entrance() {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    getVote().then((data) => {
+    /**
+     * @todo 투표 코드로 데이터 요청
+     * @todo 데이터 있으면 url에 쿼리로 투표 코드 넘김
+     */
+    fetchAndGetVote().then((data) => {
       if (data) {
         router.push(`/participant?${new URLSearchParams({ code: code }).toString()}`);
-        // router.push(`/vote?voteId=${encodeURIComponent(String(voteId))}`); // 지피티
       } else {
         setIsError(true);
         setErrorMessage('코드가 유효하지 않아요!');

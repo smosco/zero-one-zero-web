@@ -48,3 +48,14 @@ export const getVoteResultListApi = async (): Promise<VoteResultInfo> => {
     throw error;
   }
 };
+
+export const fetchAndGetVote = async () => {
+  try {
+    /** @todo API 통합 */
+    const { data } = await axios.get('/dummy/vote.json');
+    return data;
+  } catch (err) {
+    /** @todo 에러 핸들링 */
+    console.log('get vote person error : ', err);
+  }
+};

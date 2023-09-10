@@ -1,6 +1,6 @@
 'use client';
 
-import axios from 'axios';
+import { fetchAndGetVote } from '@/apis/api';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
@@ -28,19 +28,8 @@ export default function Participant() {
   const [selectedUser, setSelectedUser] = useState('');
   const [vote, setVote] = useState<iVoteType>();
 
-  const getVote = async () => {
-    try {
-      /** @todo API 통합 */
-      const { data } = await axios.get('/dummy/vote.json');
-      return data;
-    } catch (err) {
-      /** @todo 에러 핸들링 */
-      console.log('get vote person error : ', err);
-    }
-  };
-
   useEffect(() => {
-    getVote().then((data) => setVote(data));
+    fetchAndGetVote().then((data) => setVote(data));
   }, []);
 
   const hasSelected: boolean = selectedUser !== '';
