@@ -16,6 +16,11 @@ const CheckPasswordModal: React.FC<Props> = ({ onSubmit, onClose }) => {
     }
   };
 
+  const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSubmit();
+  };
+
   return (
     <Transition.Root show={true} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -55,7 +60,7 @@ const CheckPasswordModal: React.FC<Props> = ({ onSubmit, onClose }) => {
                       </div>
                     </div>
                   </div>
-                  <form className="w-full flex flex-col items-center mt-1 px-10" onSubmit={onSubmit}>
+                  <form className="w-full flex flex-col items-center mt-1 px-10" onSubmit={onFormSubmit}>
                     <input
                       className="h-10 w-full bg-red border-[1.5px] border-solid rounded text-sm p-2 outline-none"
                       type="password"
