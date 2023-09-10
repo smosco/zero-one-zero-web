@@ -4,6 +4,7 @@ import { VoteInfo, getVoteListApi } from '@/apis/api';
 import VoteMenu from '@/components/VoteMenu';
 import clsx from 'clsx';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 export default function VoteDetailPage() {
   const [voteInfo, setVoteInfo] = useState<VoteInfo>({
@@ -15,6 +16,8 @@ export default function VoteDetailPage() {
   });
   const [selectedBtnIndex, setSelectedBtnIndex] = useState<number | null>(null);
   const [selectedVote, setSelectedVote] = useState<number | null>(null);
+
+  const router = useRouter();
 
   const handleClick = (voteId: number) => {
     setSelectedBtnIndex(voteId);
@@ -37,6 +40,8 @@ export default function VoteDetailPage() {
     }
     const { voteId } = voteInfo;
     console.log(voteId, selectedVote);
+    // 임시 코드
+    router.push('/result');
   };
 
   useEffect(() => {

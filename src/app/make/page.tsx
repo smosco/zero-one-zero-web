@@ -3,9 +3,12 @@
 import Button from '@/components/Button';
 import TextArea from '@/components/TextArea';
 import TextField from '@/components/TextField';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Make() {
+  const router = useRouter();
+
   const [voteTitle, setVoteTitle] = useState<string>('');
   const [voteWriter, setVoteWriter] = useState<string>('');
   const [votePassword, setVotePassword] = useState<string>('');
@@ -54,7 +57,7 @@ export default function Make() {
   };
 
   const onSubmitClick = () => {
-    alert(
+    console.log(
       JSON.stringify({
         voteTitle,
         voteWriter,
@@ -63,6 +66,7 @@ export default function Make() {
         participantList,
       }),
     );
+    router.push('/vote');
   };
 
   return (

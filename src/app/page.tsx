@@ -9,8 +9,7 @@ export default function Entrance() {
   const router = useRouter();
   const submitCode = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(code);
-    // router.push('/vote');
+    router.push('/participant');
   };
   return (
     <div className="max-w-sm mx-auto">
