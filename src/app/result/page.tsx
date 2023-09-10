@@ -13,7 +13,7 @@ export default function VoteResultPage() {
     votes: [],
   });
 
-  // @Todo : 서버에서 주어지는 데이터 형태를 아직 확정하지 않았으므로, 이렇게 표기하되, 확정되면 바꿀 것
+  /** @todo 서버에서 주어지는 데이터 모델 확정 후 변경*/
   const userAllNumber = parseInt(voteObject?.user.split('/')[1] || '0');
   const voteUserNumber = parseInt(voteObject?.user.split('/')[0] || '0');
 
@@ -22,6 +22,7 @@ export default function VoteResultPage() {
       const res = await getVoteResultListApi();
       setVoteObject(res);
     } catch (error) {
+      /** @todo 에러 핸들링 */
       throw error;
     }
   };

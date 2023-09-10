@@ -29,6 +29,7 @@ export interface VoteResultInfo {
   votes: Array<Vote>;
 }
 
+/** @todo API 통합 */
 export const getVoteListApi = async (): Promise<VoteInfo & ParticipantInfo[]> => {
   try {
     const { data } = await axios.get('/dummy/VoteListInfo.json');
@@ -38,6 +39,7 @@ export const getVoteListApi = async (): Promise<VoteInfo & ParticipantInfo[]> =>
   }
 };
 
+/** @todo API 통합 */
 export const getVoteResultListApi = async (): Promise<VoteResultInfo> => {
   try {
     const { data } = await axios.get('/dummy/VoteResultInfo.json');

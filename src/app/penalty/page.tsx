@@ -11,7 +11,7 @@ export default function Penalty() {
   useEffect(() => {
     setDate(new Date().toLocaleDateString());
     const getData = async () => {
-      // @todo : 서버와의 연결
+      /** @todo API 통합 */
       //const { data } = await axios.get('url');
       //setName(data.name);
     };

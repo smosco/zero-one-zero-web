@@ -9,6 +9,7 @@ import { useState } from 'react';
 export default function Make() {
   const router = useRouter();
 
+  /** @todo API 통합 */
   const [voteTitle, setVoteTitle] = useState<string>('');
   const [voteWriter, setVoteWriter] = useState<string>('');
   const [votePassword, setVotePassword] = useState<string>('');
@@ -57,6 +58,7 @@ export default function Make() {
   };
 
   const onSubmitClick = () => {
+    /** @todo API 통합 */
     console.log(
       JSON.stringify({
         voteTitle,

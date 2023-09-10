@@ -29,22 +29,24 @@ export default function VoteDetailPage() {
       const voteList = await getVoteListApi();
       setVoteInfo(voteList);
     } catch (error) {
-      console.error(error); // or handle the error as you want
+      /** @todo 에러 핸들링 */
+      console.error(error);
     }
   };
 
-  // @Todo: 버튼을 누르면 필요한 데이터를 서버로 넘긴다.
   const buttonClickHandler = () => {
     if (selectedVote === null) {
       return;
     }
     const { voteId } = voteInfo;
+    /** @todo 버튼 눌렀을 때 필요한 데이터를 서버로 넘기기 */
     console.log(voteId, selectedVote);
     // 임시 코드
     router.push('/result');
   };
 
   useEffect(() => {
+    // 로딩 UI 표현을 위해 0.5초 딜레이 추가
     const timeoutId = setTimeout(() => {
       fetchVotes();
     }, 500);
