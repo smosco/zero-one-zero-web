@@ -29,7 +29,7 @@ export default function Entrance() {
         </form>
         <button
           onClick={() => {
-            router.push('/create');
+            router.push('/make');
           }}
           className="w-full h-16 flex justify-center items-center rounded-md bg-[#8c70d7] text-white"
         >

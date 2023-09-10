@@ -5,7 +5,7 @@ import TextArea from '@/components/TextArea';
 import TextField from '@/components/TextField';
 import { useState } from 'react';
 
-export default function Create() {
+export default function Make() {
   const [voteTitle, setVoteTitle] = useState<string>('');
   const [voteWriter, setVoteWriter] = useState<string>('');
   const [votePassword, setVotePassword] = useState<string>('');
