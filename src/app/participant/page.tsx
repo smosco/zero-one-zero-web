@@ -3,6 +3,7 @@
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface iParticipantList {
@@ -22,6 +23,8 @@ interface iVoteType {
 
 export default function Participant() {
   const router = useRouter();
+  const search = useSearchParams();
+  const code = search.get('code');
   const [selectedUser, setSelectedUser] = useState('');
   const [vote, setVote] = useState<iVoteType>();
 
