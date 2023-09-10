@@ -1,5 +1,5 @@
 'use client';
-import axios from 'axios';
+
 import html2canvas from 'html2canvas';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -8,6 +8,7 @@ export default function Penalty() {
   const captureRef = useRef<HTMLDivElement>(null);
   const [date, setDate] = useState<string>();
   const [name, setName] = useState<string>();
+
   useEffect(() => {
     setDate(new Date().toLocaleDateString());
     const getData = async () => {
@@ -18,7 +19,7 @@ export default function Penalty() {
     getData();
   }, []);
 
-  const handleCapture = () => {
+  const onCaptureClick = () => {
     if (captureRef.current) {
       html2canvas(captureRef.current).then((canvas) => {
         // canvas 객체에는 캡쳐된 이미지가 담겨 있습니다.
@@ -43,7 +44,7 @@ export default function Penalty() {
         className="bg-black flex justify-center mt-4 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
         style={{ top: '7%' }}
       >
-        <button className="text-white z-10" onClick={handleCapture}>
+        <button className="text-white z-10" onClick={onCaptureClick}>
           캡쳐하기
         </button>
       </div>

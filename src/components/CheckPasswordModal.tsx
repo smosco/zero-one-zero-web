@@ -2,15 +2,15 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { Fragment, useState } from 'react';
 
-type Props = {
+export type CheckPasswordModal = {
   onSubmit: () => void;
   onClose: () => void;
 };
 
-const CheckPasswordModal: React.FC<Props> = ({ onSubmit, onClose }) => {
+export default function CheckPasswordModal({ onSubmit, onClose }: CheckPasswordModal) {
   const [password, setPassword] = useState<string>('');
 
-  const onEnter = (event: React.KeyboardEvent) => {
+  const onPasswordKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter' && password) {
       onSubmit();
     }
@@ -64,7 +64,7 @@ const CheckPasswordModal: React.FC<Props> = ({ onSubmit, onClose }) => {
                     <input
                       className="h-10 w-full bg-red border-[1.5px] border-solid rounded text-sm p-2 outline-none"
                       type="password"
-                      onKeyDown={onEnter}
+                      onKeyDown={onPasswordKeyDown}
                       value={password}
                       onChange={(event) => setPassword(event.target.value)}
                     />
@@ -82,6 +82,4 @@ const CheckPasswordModal: React.FC<Props> = ({ onSubmit, onClose }) => {
       </Dialog>
     </Transition.Root>
   );
-};
-
-export default CheckPasswordModal;
+}

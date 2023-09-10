@@ -2,7 +2,7 @@ import CheckPasswordModal from '@/components/CheckPasswordModal';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-type VoteMenuProps = {
+export type VoteMenuProps = {
   share: boolean;
 };
 

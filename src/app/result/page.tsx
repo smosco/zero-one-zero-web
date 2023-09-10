@@ -1,4 +1,5 @@
 'use client';
+
 import { getVoteResultListApi } from '@/apis/api';
 import { VoteResultInfo } from '@/apis/api';
 import VoteMenu from '@/components/VoteMenu';
@@ -17,7 +18,7 @@ export default function VoteResultPage() {
   const userAllNumber = parseInt(voteObject?.user.split('/')[1] || '0');
   const voteUserNumber = parseInt(voteObject?.user.split('/')[0] || '0');
 
-  const getVoteResult = async () => {
+  const fetchVoteResult = async () => {
     try {
       const res = await getVoteResultListApi();
       setVoteObject(res);
@@ -28,7 +29,7 @@ export default function VoteResultPage() {
   };
 
   useEffect(() => {
-    getVoteResult();
+    fetchVoteResult();
   }, []);
 
   return (

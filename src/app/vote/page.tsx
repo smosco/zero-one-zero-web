@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
 export default function VoteDetailPage() {
   const [voteInfo, setVoteInfo] = useState<VoteInfo>({
     voteId: 0,
@@ -19,7 +20,7 @@ export default function VoteDetailPage() {
 
   const router = useRouter();
 
-  const handleClick = (voteId: number) => {
+  const selectVote = (voteId: number) => {
     setSelectedBtnIndex(voteId);
     setSelectedVote(voteId);
   };
@@ -34,7 +35,7 @@ export default function VoteDetailPage() {
     }
   };
 
-  const buttonClickHandler = () => {
+  const onSubmitClick = () => {
     if (selectedVote === null) {
       return;
     }
@@ -71,7 +72,7 @@ export default function VoteDetailPage() {
               return (
                 <li
                   key={voteId}
-                  onClick={() => handleClick(voteId)}
+                  onClick={() => selectVote(voteId)}
                   className={clsx(
                     idx === 0 ? 'rounded-tl-md rounded-tr-md' : '',
                     idx === origin.length - 1 ? 'rounded-bl-md rounded-br-md' : '',
@@ -87,7 +88,7 @@ export default function VoteDetailPage() {
           <button
             type="button"
             className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={buttonClickHandler}
+            onClick={onSubmitClick}
           >
             투표
           </button>

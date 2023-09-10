@@ -7,14 +7,16 @@ export default function Entrance() {
   const [code, setCode] = useState<string>('');
 
   const router = useRouter();
-  const submitCode = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     router.push('/participant');
   };
+
   return (
     <div className="max-w-sm mx-auto">
       <div className="flex flex-col gap-16 px-6 py-32">
-        <form onSubmit={submitCode} className="flex flex-col gap-8">
+        <form onSubmit={onSubmit} className="flex flex-col gap-8">
           <input
             type="text"
             value={code}
