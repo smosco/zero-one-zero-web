@@ -25,24 +25,24 @@ export default function Participant() {
   const router = useRouter();
   const search = useSearchParams();
   const code = search.get('code');
-  const [selectedUser, setSelectedUser] = useState('');
+  const [selectedUserName, setSelectedUserName] = useState('');
   const [vote, setVote] = useState<iVoteType>();
 
   useEffect(() => {
     fetchAndGetVote().then((data) => setVote(data));
   }, []);
 
-  const hasSelected: boolean = selectedUser !== '';
+  const hasSelectedUserName: boolean = selectedUserName !== '';
 
-  const isCompleted: iParticipantList | undefined = vote?.participantList.find((item) => {
-    return item.participantName === selectedUser;
-  });
+  const isCompleted: boolean | undefined = vote?.participantList.find((item) => {
+    return item.participantName === selectedUserName;
+  })?.isSelected;
 
   const changeUser = (userName: string) => {
-    if (selectedUser === userName) {
-      setSelectedUser('');
+    if (selectedUserName === userName) {
+      setSelectedUserName('');
     } else {
-      setSelectedUser(userName);
+      setSelectedUserName(userName);
     }
   };
 
@@ -56,7 +56,7 @@ export default function Participant() {
               key={participantId}
               onClick={() => changeUser(participantName)}
               className={`h-[140px] flex justify-center items-center relative rounded-lg overflow-hidden ${
-                selectedUser === participantName ? 'bg-[#e4f18b]' : 'bg-[#f0f2f5]'
+                selectedUserName === participantName ? 'bg-[#e4f18b]' : 'bg-[#f0f2f5]'
               }`}
             >
               <p className="text-lg font-bold">{participantName}</p>
@@ -74,13 +74,13 @@ export default function Participant() {
         </ul>
         {vote && (
           <button
-            disabled={!hasSelected}
-            onClick={() => router.push(isCompleted?.isSelected ? '/result' : '/vote')}
+            disabled={!hasSelectedUserName}
+            onClick={() => router.push(isCompleted ? '/result' : '/vote')}
             className={`w-full h-16 flex justify-center items-center rounded-md bg-[#8c70d7] text-white ${
-              hasSelected ? 'opacity-100' : 'opacity-70'
+              hasSelectedUserName ? 'opacity-100' : 'opacity-70'
             }`}
           >
-            {isCompleted?.isSelected ? '투표결과 보러가기' : '투표하러 가기'}
+            {isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
           </button>
         )}
       </div>
