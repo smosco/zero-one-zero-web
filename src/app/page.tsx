@@ -43,19 +43,19 @@ export default function Entrance() {
               onChange={(e) => setCode(e.target.value)}
               placeholder="참여 코드를 입력해주세요"
               required
-              className="h-16 mt-1 block w-full px-3 py-2 bg-white border border-slate-300 hover:border-[#8c70d7] rounded-md text-md shadow-sm placeholder-slate-400"
+              className="h-16 mt-1 block w-full px-3 py-2 bg-white border-2 border-indigo-200 outline-none focus:border-indigo-400 rounded-lg text-md placeholder-gray-400"
             />
-            {true && <p className="text-slate-400 font-md">{errorMessage}</p>}
+            {true && <p className="text-gray-200 font-md">{errorMessage}</p>}
           </div>
-          <button className="w-full h-16 flex justify-center items-center rounded-md bg-[#8c70d7] text-white">
+          <button className="w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white">
             코드 입력
           </button>
         </form>
         <button
           onClick={() => {
-            router.push('/make');
+            router.push('/create');
           }}
-          className="w-full h-16 flex justify-center items-center rounded-md bg-[#8c70d7] text-white"
+          className="w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white"
         >
           투표 만들러 가기
         </button>
