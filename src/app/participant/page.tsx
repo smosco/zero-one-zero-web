@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 interface iParticipantList {
   participantId: number;
   participantName: string;
-  isDone: boolean;
+  isSelected: boolean;
 }
 
 interface iVoteType {
@@ -18,11 +18,13 @@ interface iVoteType {
   voteDescription: string;
   selectList: string[];
   participantList: iParticipantList[];
-} // 인터페이스~
+}
 
 export default function Participant() {
+  const router = useRouter();
   const [selectedUser, setSelectedUser] = useState('');
   const [vote, setVote] = useState<iVoteType>();
+
   const getVote = async () => {
     try {
       const { data } = await axios.get('/dummy/vote.json');
@@ -36,8 +38,11 @@ export default function Participant() {
     getVote().then((data) => setVote(data));
   }, []);
 
-  const isSelected: boolean = selectedUser !== '';
-  const router = useRouter();
+  const hasSelected: boolean = selectedUser !== '';
+
+  const isCompleted: iParticipantList | undefined = vote?.participantList.find((item) => {
+    return item.participantName === selectedUser;
+  });
 
   const changeUser = (userName: string) => {
     if (selectedUser === userName) {
@@ -47,49 +52,43 @@ export default function Participant() {
     }
   };
 
-  const isCompleted: iParticipantList | undefined = vote?.participantList.find((item) => {
-    return item.participantName === selectedUser;
-  });
-
   return (
     <div className="max-w-sm mx-auto">
-      <div className="flex flex-col gap-16 px-6 py-32 bg-black">
-        <h1 className="w-full text-center text-white ">{vote?.voteTitle}</h1>
-        <ul className="w-full grid grid-cols-2 gap-4 ">
-          {vote?.participantList.map((item) => (
+      <div className="flex flex-col gap-16 px-6 py-32">
+        <h1 className="w-full text-center text-xl text-black font-bold">{vote?.voteTitle}</h1>
+        <ul className="w-full grid grid-cols-2 gap-4">
+          {vote?.participantList.map(({ participantId, participantName, isSelected }) => (
             <li
-              key={item.participantId}
-              onClick={() => {
-                changeUser(item.participantName);
-              }}
-              className={`h-[140px] flex justify-center items-center relative rounded-md overflow-hidden ${
-                selectedUser === item.participantName ? 'bg-[#f7d44c]' : 'bg-[#f6ecc9]'
+              key={participantId}
+              onClick={() => changeUser(participantName)}
+              className={`h-[140px] flex justify-center items-center relative rounded-lg overflow-hidden ${
+                selectedUser === participantName ? 'bg-[#e4f18b]' : 'bg-[#f0f2f5]'
               }`}
             >
-              <p className="text-lg font-bold">{item.participantName}</p>
-              {item.isDone && (
+              <p className="text-lg font-bold">{participantName}</p>
+              {isSelected && (
                 <Image
-                  src="/images/completeVote.png"
-                  width={50}
-                  height={50}
+                  src="/images/marker.png"
+                  width={30}
+                  height={30}
                   alt="doneVote icon"
-                  className="absolute top-0 right-0 "
+                  className="absolute top-4 right-4"
                 />
               )}
             </li>
           ))}
         </ul>
-        <button
-          disabled={!isSelected}
-          onClick={() => {
-            router.push(isCompleted?.isDone ? '/result' : '/vote');
-          }}
-          className={`w-full h-16 flex justify-center items-center rounded-md bg-[#eb7a53] ${
-            isSelected ? 'opacity-100' : 'opacity-70'
-          }`}
-        >
-          {isCompleted?.isDone ? '투표결과 보러가기' : '투표하러 가기'}
-        </button>
+        {vote && (
+          <button
+            disabled={!hasSelected}
+            onClick={() => router.push(isCompleted?.isSelected ? '/result' : '/vote')}
+            className={`w-full h-16 flex justify-center items-center rounded-md bg-[#8c70d7] text-white ${
+              hasSelected ? 'opacity-100' : 'opacity-70'
+            }`}
+          >
+            {isCompleted?.isSelected ? '투표결과 보러가기' : '투표하러 가기'}
+          </button>
+        )}
       </div>
     </div>
   );
