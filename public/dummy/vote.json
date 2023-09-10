@@ -1,0 +1,13 @@
+{
+  "voteId": 1,
+  "voteCreator": "키유",
+  "voteTitle": "키유의 투표",
+  "voteDescription": "오늘 저녁 뭐 먹을지 정해봐요!",
+  "selectList": "['짜장면', '마라탕', '돈가스']",
+  "participantList": [
+    { "participantId": 1, "participantName": "제리", "isDone": true },
+    { "participantId": 2, "participantName": "키유", "isDone": false },
+    { "participantId": 3, "participantName": "앨빈", "isDone": false },
+    { "participantId": 4, "participantName": "니노", "isDone": false }
+  ]
+}
