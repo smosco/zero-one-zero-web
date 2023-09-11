@@ -1,6 +1,6 @@
 'use client';
 
-import { getVoteResultListApi } from '@/apis/api';
+import { getVoteResultListAPI } from '@/apis/api';
 import { VoteResultInfo } from '@/apis/api';
 import VoteMenu from '@/components/VoteMenu';
 import clsx from 'clsx';
@@ -20,11 +20,11 @@ export default function VoteResultPage() {
 
   const fetchVoteResult = async () => {
     try {
-      const res = await getVoteResultListApi();
+      const res = await getVoteResultListAPI();
       setVoteObject(res);
     } catch (error) {
       /** @todo 에러 핸들링 */
-      throw error;
+      console.error(error);
     }
   };
 

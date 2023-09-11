@@ -1,5 +1,6 @@
-import { getVoteListApi } from '@/apis/api';
+import { getVoteListAPI } from '@/apis/api';
 import CheckPasswordModal from '@/components/CheckPasswordModal';
+import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import ShareModal from './ShareModal';
@@ -38,24 +39,26 @@ export default function VoteMenu({ share }: VoteMenuProps) {
     setShareOpen(false);
   };
 
+  const onShareClick = async () => {
+    const { voteId } = await getVoteListAPI();
+    setCode(voteId);
+    setShareOpen(true);
+  };
+
   return (
     <>
       <div className="w-full flex">
-        <div className={`flex items-center ${share ? 'justify-between' : 'justify-end'}`} style={{ width: '23rem' }}>
+        <div
+          className={clsx('flex items-center', share ? 'justify-between' : 'justify-end')}
+          style={{ width: '23rem' }}
+        >
           <div>
             <button onClick={onEditClick}>투표 수정</button>
             <button onClick={onEndClick} className="ml-2">
               투표 종료
             </button>
           </div>
-          <button
-            className={`${!share && 'hidden'}`}
-            onClick={async () => {
-              const { voteId } = await getVoteListApi();
-              setCode(voteId);
-              setShareOpen(true);
-            }}
-          >
+          <button className={clsx({ hidden: !share })} onClick={onShareClick}>
             공유하기
           </button>
         </div>

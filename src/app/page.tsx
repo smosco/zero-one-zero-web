@@ -1,6 +1,6 @@
 'use client';
 
-import { fetchAndGetVote } from '@/apis/api';
+import { getVoteAPI } from '@/apis/api';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -10,26 +10,24 @@ export default function Entrance() {
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
-  // code를 통해서 voteId 가져오기
-  // voteId를 통해서 해당 voteId의 vote 정보 가져오기
-
-  // code를 통해서 code가 있는지 확인만 하기
-  // code를 통해서 해당 code의 vote 정보 가져오기
-
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     /**
      * @todo 투표 코드로 데이터 요청
      * @todo 데이터 있으면 url에 쿼리로 투표 코드 넘김
      */
-    fetchAndGetVote().then((data) => {
+    try {
+      const data = await getVoteAPI();
       if (data) {
         router.push(`/participant?${new URLSearchParams({ code: code }).toString()}`);
       } else {
         setIsError(true);
         setErrorMessage('코드가 유효하지 않아요!');
       }
-    });
+    } catch (error) {
+      /** @todo 에러 핸들링 */
+      console.log('get vote person error : ', error);
+    }
   };
 
   return (
@@ -53,7 +51,7 @@ export default function Entrance() {
         </form>
         <button
           onClick={() => {
-            router.push('/create');
+            router.push('/make');
           }}
           className="w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white"
         >

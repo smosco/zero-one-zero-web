@@ -32,6 +32,7 @@ export default function ShareModal({ onClose, code }: ShareModalProps) {
     };
 
     if (navigator.share) {
+      /** @todo 에러 핸들링 */
       navigator
         .share(data)
         .then(() => console.log('공유 성공'))

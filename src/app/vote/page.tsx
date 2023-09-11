@@ -1,6 +1,6 @@
 'use client';
 
-import { VoteInfo, getVoteListApi } from '@/apis/api';
+import { VoteInfo, getVoteListAPI } from '@/apis/api';
 import VoteMenu from '@/components/VoteMenu';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -27,7 +27,7 @@ export default function VoteDetailPage() {
 
   const fetchVotes = async () => {
     try {
-      const voteList = await getVoteListApi();
+      const voteList = await getVoteListAPI();
       setVoteInfo(voteList);
     } catch (error) {
       /** @todo 에러 핸들링 */
@@ -42,7 +42,6 @@ export default function VoteDetailPage() {
     const { voteId } = voteInfo;
     /** @todo 버튼 눌렀을 때 필요한 데이터를 서버로 넘기기 */
     console.log(voteId, selectedVote);
-    // 임시 코드
     router.push('/result');
   };
 

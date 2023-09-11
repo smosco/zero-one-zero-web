@@ -1,6 +1,7 @@
 'use client';
 
-import { fetchAndGetVote } from '@/apis/api';
+import { getVoteAPI } from '@/apis/api';
+import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
@@ -23,13 +24,22 @@ interface iVoteType {
 
 export default function Participant() {
   const router = useRouter();
-  const search = useSearchParams();
-  const code = search.get('code');
+  /** @todo code query param을 이용해 API 호출 */
+  // const search = useSearchParams();
+  // const code = search.get('code');
   const [selectedUserName, setSelectedUserName] = useState('');
   const [vote, setVote] = useState<iVoteType>();
 
   useEffect(() => {
-    fetchAndGetVote().then((data) => setVote(data));
+    (async () => {
+      try {
+        const data = await getVoteAPI();
+        setVote(data);
+      } catch (error) {
+        /** @todo 에러 핸들링 */
+        console.log('get vote person error : ', error);
+      }
+    })();
   }, []);
 
   const hasSelectedUserName: boolean = selectedUserName !== '';
@@ -52,17 +62,19 @@ export default function Participant() {
       <div className="flex flex-col gap-16 px-6 pt-24 pb-8">
         <h1 className="w-full text-center text-xl text-black font-bold">{vote?.voteTitle}</h1>
         <ul
-          className={`h-[30rem] w-full grid ${
-            participantMoreThanSix ? 'grid-cols-3' : 'grid-cols-2'
-          } gap-x-4 gap-y-6 overflow-y-scroll`}
+          className={clsx(
+            'h-[30rem] w-full grid gap-x-4 gap-y-6 overflow-y-scroll',
+            participantMoreThanSix ? 'grid-cols-3' : 'grid-cols-2',
+          )}
         >
           {vote?.participantList.map(({ participantId, participantName, isSelected }) => (
             <li
               key={participantId}
               onClick={() => changeUser(participantName)}
-              className={`h-[140px] flex justify-center items-center relative rounded-lg overflow-hidden bg-indigo-50 border-2 border-solid cursor-pointer ${
-                selectedUserName === participantName ? 'border-indigo-200' : 'border-gray-100'
-              }`}
+              className={clsx(
+                'h-[140px] flex justify-center items-center relative rounded-lg overflow-hidden bg-indigo-50 border-2 border-solid cursor-pointer',
+                selectedUserName === participantName ? 'border-indigo-200' : 'border-gray-100',
+              )}
             >
               <p className="text-lg font-bold">{participantName}</p>
               {isSelected && (

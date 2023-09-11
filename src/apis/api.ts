@@ -30,32 +30,19 @@ export interface VoteResultInfo {
 }
 
 /** @todo API 통합 */
-export const getVoteListApi = async (): Promise<VoteInfo & ParticipantInfo[]> => {
-  try {
-    const { data } = await axios.get('/dummy/VoteListInfo.json');
-    return data;
-  } catch (error) {
-    throw error;
-  }
+export const getVoteListAPI = async (): Promise<VoteInfo & ParticipantInfo[]> => {
+  const { data } = await axios.get('/dummy/VoteListInfo.json');
+  return data;
 };
 
 /** @todo API 통합 */
-export const getVoteResultListApi = async (): Promise<VoteResultInfo> => {
-  try {
-    const { data } = await axios.get('/dummy/VoteResultInfo.json');
-    return data;
-  } catch (error) {
-    throw error;
-  }
+export const getVoteResultListAPI = async (): Promise<VoteResultInfo> => {
+  const { data } = await axios.get('/dummy/VoteResultInfo.json');
+  return data;
 };
 
-export const fetchAndGetVote = async () => {
-  try {
-    /** @todo API 통합 */
-    const { data } = await axios.get('/dummy/vote.json');
-    return data;
-  } catch (err) {
-    /** @todo 에러 핸들링 */
-    console.log('get vote person error : ', err);
-  }
+/** @todo API 통합 */
+export const getVoteAPI = async () => {
+  const { data } = await axios.get('/dummy/vote.json');
+  return data;
 };

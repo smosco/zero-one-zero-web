@@ -11,12 +11,11 @@ export default function Penalty() {
 
   useEffect(() => {
     setDate(new Date().toLocaleDateString());
-    const getData = async () => {
-      /** @todo API 통합 */
-      //const { data } = await axios.get('url');
-      //setName(data.name);
-    };
-    getData();
+    /** @todo API 통합 */
+    // (async () => {
+    //   const { data } = await axios.get('url');
+    //   setName(data.name);
+    // })();
   }, []);
 
   const onCaptureClick = () => {
