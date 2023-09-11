@@ -1,6 +1,6 @@
 'use client';
 
-import { getVoteAPI } from '@/apis/api';
+import { getVoteAPI } from '@/api';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 

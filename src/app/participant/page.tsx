@@ -1,6 +1,6 @@
 'use client';
 
-import { getVoteAPI } from '@/apis/api';
+import { getVoteAPI } from '@/api';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';

@@ -1,4 +1,5 @@
 import axios from 'axios';
+
 export interface VoteInfo {
   voteId: number;
   voteCreator: string;

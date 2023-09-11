@@ -1,7 +1,6 @@
 'use client';
 
-import { getVoteResultListAPI } from '@/apis/api';
-import { VoteResultInfo } from '@/apis/api';
+import { getVoteResultListAPI, VoteResultInfo } from '@/api';
 import VoteMenu from '@/components/VoteMenu';
 import clsx from 'clsx';
 import Image from 'next/image';

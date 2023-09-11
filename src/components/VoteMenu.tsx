@@ -1,4 +1,4 @@
-import { getVoteListAPI } from '@/apis/api';
+import { getVoteListAPI } from '@/api';
 import CheckPasswordModal from '@/components/CheckPasswordModal';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
