@@ -3,9 +3,13 @@
 import Button from '@/components/Button';
 import TextArea from '@/components/TextArea';
 import TextField from '@/components/TextField';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-export default function Create() {
+export default function Make() {
+  const router = useRouter();
+
+  /** @todo API 통합 */
   const [voteTitle, setVoteTitle] = useState<string>('');
   const [voteWriter, setVoteWriter] = useState<string>('');
   const [votePassword, setVotePassword] = useState<string>('');
@@ -54,7 +58,8 @@ export default function Create() {
   };
 
   const onSubmitClick = () => {
-    alert(
+    /** @todo API 통합 */
+    console.log(
       JSON.stringify({
         voteTitle,
         voteWriter,
@@ -63,6 +68,7 @@ export default function Create() {
         participantList,
       }),
     );
+    router.push('/vote');
   };
 
   return (

@@ -3,7 +3,12 @@
 @tailwind utilities;
 
 :root {
+  --max-screen: 512px;
+  --1sw: calc(min(100vw, var(--max-screen) / 100));
 }
 
-body {
+#app {
+  max-width: var(--max-screen);
+  margin-right: auto;
+  margin-left: auto;
 }

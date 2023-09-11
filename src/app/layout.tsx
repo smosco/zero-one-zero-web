@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <div className="max-w-lg mx-auto">{children}</div>
+        <div id="app">{children}</div>
       </body>
     </html>
   );

@@ -1,14 +1,16 @@
 'use client';
 
-import axios from 'axios';
+import { getVoteAPI } from '@/api';
+import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface iParticipantList {
   participantId: number;
   participantName: string;
-  isDone: boolean;
+  isSelected: boolean;
 }
 
 interface iVoteType {
@@ -18,78 +20,86 @@ interface iVoteType {
   voteDescription: string;
   selectList: string[];
   participantList: iParticipantList[];
-} // 인터페이스~
+}
 
 export default function Participant() {
-  const [selectedUser, setSelectedUser] = useState('');
+  const router = useRouter();
+  /** @todo code query param을 이용해 API 호출 */
+  // const search = useSearchParams();
+  // const code = search.get('code');
+  const [selectedUserName, setSelectedUserName] = useState('');
   const [vote, setVote] = useState<iVoteType>();
-  const getVote = async () => {
-    try {
-      const { data } = await axios.get('/dummy/vote.json');
-      return data;
-    } catch (err) {
-      console.log('get vote person error : ', err);
-    }
-  };
 
   useEffect(() => {
-    getVote().then((data) => setVote(data));
+    (async () => {
+      try {
+        const data = await getVoteAPI();
+        setVote(data);
+      } catch (error) {
+        /** @todo 에러 핸들링 */
+        console.log('get vote person error : ', error);
+      }
+    })();
   }, []);
 
-  const isSelected: boolean = selectedUser !== '';
-  const router = useRouter();
+  const hasSelectedUserName: boolean = selectedUserName !== '';
+  const isCompleted: boolean | undefined = vote?.participantList.find((item) => {
+    return item.participantName === selectedUserName;
+  })?.isSelected;
+  const numOfParticipant: number | undefined = vote?.participantList.length;
+  const participantMoreThanSix: boolean | 0 | undefined = numOfParticipant && numOfParticipant > 6;
 
   const changeUser = (userName: string) => {
-    if (selectedUser === userName) {
-      setSelectedUser('');
+    if (selectedUserName === userName) {
+      setSelectedUserName('');
     } else {
-      setSelectedUser(userName);
+      setSelectedUserName(userName);
     }
   };
-
-  const isCompleted: iParticipantList | undefined = vote?.participantList.find((item) => {
-    return item.participantName === selectedUser;
-  });
 
   return (
     <div className="max-w-sm mx-auto">
-      <div className="flex flex-col gap-16 px-6 py-32 bg-black">
-        <h1 className="w-full text-center text-white ">{vote?.voteTitle}</h1>
-        <ul className="w-full grid grid-cols-2 gap-4 ">
-          {vote?.participantList.map((item) => (
+      <div className="flex flex-col gap-16 px-6 pt-24 pb-8">
+        <h1 className="w-full text-center text-xl text-black font-bold">{vote?.voteTitle}</h1>
+        <ul
+          className={clsx(
+            'h-[30rem] w-full grid gap-x-4 gap-y-6 overflow-y-scroll',
+            participantMoreThanSix ? 'grid-cols-3' : 'grid-cols-2',
+          )}
+        >
+          {vote?.participantList.map(({ participantId, participantName, isSelected }) => (
             <li
-              key={item.participantId}
-              onClick={() => {
-                changeUser(item.participantName);
-              }}
-              className={`h-[140px] flex justify-center items-center relative rounded-md overflow-hidden ${
-                selectedUser === item.participantName ? 'bg-[#f7d44c]' : 'bg-[#f6ecc9]'
-              }`}
+              key={participantId}
+              onClick={() => changeUser(participantName)}
+              className={clsx(
+                'h-[140px] flex justify-center items-center relative rounded-lg overflow-hidden bg-indigo-50 border-2 border-solid cursor-pointer',
+                selectedUserName === participantName ? 'border-indigo-200' : 'border-gray-100',
+              )}
             >
-              <p className="text-lg font-bold">{item.participantName}</p>
-              {item.isDone && (
+              <p className="text-lg font-bold">{participantName}</p>
+              {isSelected && (
                 <Image
-                  src="/images/completeVote.png"
-                  width={50}
-                  height={50}
+                  src="/images/marker.png"
+                  width={30}
+                  height={30}
                   alt="doneVote icon"
-                  className="absolute top-0 right-0 "
+                  className="absolute top-4 right-4"
                 />
               )}
             </li>
           ))}
         </ul>
-        <button
-          disabled={!isSelected}
-          onClick={() => {
-            router.push(isCompleted?.isDone ? '/result' : '/vote');
-          }}
-          className={`w-full h-16 flex justify-center items-center rounded-md bg-[#eb7a53] ${
-            isSelected ? 'opacity-100' : 'opacity-70'
-          }`}
-        >
-          {isCompleted?.isDone ? '투표결과 보러가기' : '투표하러 가기'}
-        </button>
+        {vote && (
+          <button
+            disabled={!hasSelectedUserName}
+            onClick={() => router.push(isCompleted ? '/result' : '/vote')}
+            className={`w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white ${
+              hasSelectedUserName ? 'opacity-100' : 'opacity-60'
+            }`}
+          >
+            {isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
+          </button>
+        )}
       </div>
     </div>
   );

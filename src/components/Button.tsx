@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-interface ButtonProps extends React.ComponentProps<'button'> {}
+export type ButtonProps = React.ComponentProps<'button'>;
 
 export default function Button(props: ButtonProps) {
   const { type = 'button', disabled = false, className, ...rest } = props;
