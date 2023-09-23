@@ -1,11 +1,12 @@
 'use client';
 
 import { getVoteAPI } from '@/api';
+import { RoomCodeContext } from '@/context/RoomCodeContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 interface iParticipantList {
   participantsId: number;
@@ -27,6 +28,7 @@ export default function Participant() {
   const roomCode = searchParams.get('roomCode');
   const router = useRouter();
 
+  const { setRoomCode } = useContext(RoomCodeContext);
   const [selectedUserName, setSelectedUserName] = useState('');
   const [vote, setVote] = useState<iVoteType>();
 

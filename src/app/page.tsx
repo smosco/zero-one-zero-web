@@ -1,17 +1,14 @@
 'use client';
 
 import { getVoteAPI } from '@/api';
-import { useSearchParams, useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { RoomCodeContext } from '@/context/RoomCodeContext';
+import { useRouter } from 'next/navigation';
+import { useState, useContext } from 'react';
 
 export default function Entrance() {
-  const searchParams = useSearchParams();
-  const param = searchParams.get('code');
   const router = useRouter();
 
-  // roomCode를 state으로 지정하지 않으면
-  // input에서 사용자가 코드를 바꿔서 틀려도 url의 roomCode로 진입할 수 있게 됨
-  const [roomCode, setRoomCode] = useState<string>(param || '');
+  const { roomCode, setRoomCode } = useContext(RoomCodeContext);
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -26,6 +23,7 @@ export default function Entrance() {
       setErrorMessage('코드가 유효하지 않아요!');
     }
   };
+
   return (
     <div className="max-w-sm mx-auto">
       <div className="flex flex-col gap-16 px-6 py-32">
@@ -34,7 +32,7 @@ export default function Entrance() {
             <input
               type="text"
               value={roomCode}
-              onChange={(e) => setRoomCode(e.target.value)}
+              onChange={(e) => setRoomCode!(e.target.value)}
               placeholder="참여 코드를 입력해주세요"
               required
               className="h-16 mt-1 block w-full px-3 py-2 bg-white border-2 border-indigo-200 outline-none focus:border-indigo-400 rounded-lg text-md placeholder-gray-400"

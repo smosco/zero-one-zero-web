@@ -66,7 +66,7 @@ export default function Make() {
         selectList: voteList,
         participantList,
       });
-      router.push(`/?code=${roomCode}`);
+      router.push(`/?roomCode=${roomCode}`);
     } catch (err) {
       throw new Error('투표 생성에 실패했습니다.');
     }

@@ -11,7 +11,7 @@ export interface VoteInfo {
 }
 
 export type SelectInfo = {
-  voteId: number;
+  voteValuesId: number;
   voteLabel: string;
 };
 

@@ -1,13 +1,15 @@
 'use client';
 
-import { VoteInfo, getVoteListAPI } from '@/api';
+import { VoteInfo, getVoteAPI } from '@/api';
 import VoteMenu from '@/components/VoteMenu';
+import { RoomCodeContext } from '@/context/RoomCodeContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 
 export default function VoteDetailPage() {
+  const { roomCode } = useContext(RoomCodeContext);
   const [voteInfo, setVoteInfo] = useState<VoteInfo>({
     voteId: 0,
     voteCreator: '',
@@ -27,7 +29,7 @@ export default function VoteDetailPage() {
 
   const fetchVotes = async () => {
     try {
-      const voteList = await getVoteListAPI();
+      const voteList = await getVoteAPI(roomCode!);
       setVoteInfo(voteList);
     } catch (error) {
       /** @todo 에러 핸들링 */
@@ -67,15 +69,15 @@ export default function VoteDetailPage() {
         <>
           <h1 className="w-full text-2xl text-center mb-4">{voteInfo?.voteTitle}</h1>
           <ul className="w-full flex flex-col justify-evenly gap-4">
-            {voteInfo.selectList.map(({ voteId, voteLabel }, idx, origin) => {
+            {voteInfo.selectList.map(({ voteValuesId, voteLabel }, idx, origin) => {
               return (
                 <li
-                  key={voteId}
-                  onClick={() => selectVote(voteId)}
+                  key={voteValuesId}
+                  onClick={() => selectVote(voteValuesId)}
                   className={clsx(
                     idx === 0 ? 'rounded-tl-md rounded-tr-md' : '',
                     idx === origin.length - 1 ? 'rounded-bl-md rounded-br-md' : '',
-                    selectedBtnIndex === voteId ? 'z-10 border-indigo-200 bg-indigo-50' : 'border-gray-200',
+                    selectedBtnIndex === voteValuesId ? 'z-10 border-indigo-200 bg-indigo-50' : 'border-gray-200',
                     'relative flex cursor-pointer flex-col border p-4 focus:outline-none md:grid md:grid-cols-3 md:pl-4 md:pr-6',
                   )}
                 >
