@@ -3,7 +3,7 @@ import axios from 'axios';
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 export interface VoteInfo {
-  voteId: number;
+  roomId: number;
   voteCreator: string;
   voteTitle: string;
   voteDescription: string;
@@ -41,6 +41,11 @@ export interface VoteResultInfo {
   votes: Array<Vote>;
 }
 
+interface IVote {
+  userName: string;
+  voteValueId: number;
+}
+
 /** @todo API 통합 */
 export const getVoteListAPI = async (): Promise<VoteInfo & ParticipantInfo[]> => {
   const { data } = await axios.get('/dummy/VoteListInfo.json');
@@ -61,5 +66,10 @@ export const getVoteAPI = async (roomCode: string) => {
 
 export const createVote = async (voteData: VoteData) => {
   const { data } = await axios.post('vote/putCreateNewVote', voteData);
+  return data;
+};
+
+export const castVote = async (roomId: number, vote: IVote) => {
+  const { data } = await axios.put(`vote/room/${roomId}/putCastVote`, vote);
   return data;
 };

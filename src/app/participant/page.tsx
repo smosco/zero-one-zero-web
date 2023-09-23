@@ -93,7 +93,7 @@ export default function Participant() {
         {vote && (
           <button
             disabled={!hasSelectedUserName}
-            onClick={() => router.push(isCompleted ? '/result' : '/vote')}
+            onClick={() => router.push(isCompleted ? '/result' : `/vote/?username=${selectedUserName}`)}
             className={`w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white ${
               hasSelectedUserName ? 'opacity-100' : 'opacity-60'
             }`}

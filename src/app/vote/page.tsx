@@ -1,17 +1,23 @@
 'use client';
 
-import { VoteInfo, getVoteAPI } from '@/api';
+import { VoteInfo, castVote, getVoteAPI } from '@/api';
 import VoteMenu from '@/components/VoteMenu';
 import { RoomCodeContext } from '@/context/RoomCodeContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState, useContext } from 'react';
 
 export default function VoteDetailPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const param = searchParams.get('username');
+  const username = param || '';
+
   const { roomCode } = useContext(RoomCodeContext);
   const [voteInfo, setVoteInfo] = useState<VoteInfo>({
-    voteId: 0,
+    roomId: 0,
     voteCreator: '',
     voteTitle: '',
     voteDescription: '',
@@ -20,7 +26,7 @@ export default function VoteDetailPage() {
   const [selectedBtnIndex, setSelectedBtnIndex] = useState<number | null>(null);
   const [selectedVote, setSelectedVote] = useState<number | null>(null);
 
-  const router = useRouter();
+  console.log(voteInfo);
 
   const selectVote = (voteId: number) => {
     setSelectedBtnIndex(voteId);
@@ -41,17 +47,22 @@ export default function VoteDetailPage() {
     if (selectedVote === null) {
       return;
     }
-    const { voteId } = voteInfo;
-    /** @todo 버튼 눌렀을 때 필요한 데이터를 서버로 넘기기 */
-    console.log(voteId, selectedVote);
-    router.push('/result');
+    try {
+      /** @todo 버튼 눌렀을 때 필요한 데이터를 서버로 넘기기 */
+      const { roomId } = voteInfo;
+      castVote(roomId, { userName: username, voteValueId: selectedVote });
+      window.alert('투표 완료!');
+      router.push('/result');
+    } catch (err) {
+      throw new Error('투표를 가져오는데 문제가 생겼습니다.');
+    }
   };
 
   useEffect(() => {
     // 로딩 UI 표현을 위해 0.5초 딜레이 추가
     const timeoutId = setTimeout(() => {
       fetchVotes();
-    }, 500);
+    }, 300);
 
     return () => {
       clearTimeout(timeoutId);
@@ -59,7 +70,7 @@ export default function VoteDetailPage() {
   }, []);
 
   return (
-    <main className="relative h-48 flex flex-col h-screen justify-evenly m-10 my-10 py-10 px-8 ">
+    <main className="relative flex flex-col h-screen justify-evenly m-10 my-10 py-10 px-8 ">
       {voteInfo.selectList.length === 0 ? (
         <>
           <h1 className="w-full text-2xl text-center mb-4">투표도장에 잉크를 꼼꼼히 바르고 있습니다....</h1>
@@ -87,7 +98,6 @@ export default function VoteDetailPage() {
             })}
           </ul>
           <button
-            type="button"
             className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={onSubmitClick}
           >
