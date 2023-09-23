@@ -8,9 +8,9 @@ import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface iParticipantList {
-  participantId: number;
-  participantName: string;
-  isSelected: boolean;
+  participantsId: number;
+  participantsName: string;
+  isNameSelected: boolean;
 }
 
 interface iVoteType {
@@ -23,29 +23,28 @@ interface iVoteType {
 }
 
 export default function Participant() {
+  const searchParams = useSearchParams();
+  const roomCode = searchParams.get('roomCode');
   const router = useRouter();
-  /** @todo code query param을 이용해 API 호출 */
-  // const search = useSearchParams();
-  // const code = search.get('code');
+
   const [selectedUserName, setSelectedUserName] = useState('');
   const [vote, setVote] = useState<iVoteType>();
 
   useEffect(() => {
     (async () => {
       try {
-        const data = await getVoteAPI();
+        const data = await getVoteAPI(roomCode!);
         setVote(data);
       } catch (error) {
-        /** @todo 에러 핸들링 */
-        console.log('get vote person error : ', error);
+        throw new Error('투표를 가져오는데 문제가 생겼습니다.');
       }
     })();
-  }, []);
+  }, [roomCode]);
 
   const hasSelectedUserName: boolean = selectedUserName !== '';
   const isCompleted: boolean | undefined = vote?.participantList.find((item) => {
-    return item.participantName === selectedUserName;
-  })?.isSelected;
+    return item.participantsName === selectedUserName;
+  })?.isNameSelected;
   const numOfParticipant: number | undefined = vote?.participantList.length;
   const participantMoreThanSix: boolean | 0 | undefined = numOfParticipant && numOfParticipant > 6;
 
@@ -67,17 +66,17 @@ export default function Participant() {
             participantMoreThanSix ? 'grid-cols-3' : 'grid-cols-2',
           )}
         >
-          {vote?.participantList.map(({ participantId, participantName, isSelected }) => (
+          {vote?.participantList.map(({ participantsId, participantsName, isNameSelected }) => (
             <li
-              key={participantId}
-              onClick={() => changeUser(participantName)}
+              key={participantsId}
+              onClick={() => changeUser(participantsName)}
               className={clsx(
                 'h-[140px] flex justify-center items-center relative rounded-lg overflow-hidden bg-indigo-50 border-2 border-solid cursor-pointer',
-                selectedUserName === participantName ? 'border-indigo-200' : 'border-gray-100',
+                selectedUserName === participantsName ? 'border-indigo-200' : 'border-gray-100',
               )}
             >
-              <p className="text-lg font-bold">{participantName}</p>
-              {isSelected && (
+              <p className="text-lg font-bold">{participantsName}</p>
+              {isNameSelected && (
                 <Image
                   src="/images/marker.png"
                   width={30}

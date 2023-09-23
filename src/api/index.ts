@@ -26,6 +26,15 @@ interface Vote {
   selecteduser: string;
 }
 
+interface VoteData {
+  creatorName: string;
+  voteTitle: string;
+  modifyCode: string;
+  voteDescription: string;
+  selectList: string[];
+  participantList: string[];
+}
+
 export interface VoteResultInfo {
   title: string;
   user: string;
@@ -47,5 +56,10 @@ export const getVoteResultListAPI = async (): Promise<VoteResultInfo> => {
 /** @todo API 통합 */
 export const getVoteAPI = async (roomCode: string) => {
   const { data } = await axios.get(roomCode);
+  return data;
+};
+
+export const createVote = async (voteData: VoteData) => {
+  const { data } = await axios.post('vote/putCreateNewVote', voteData);
   return data;
 };

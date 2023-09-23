@@ -9,27 +9,23 @@ export default function Entrance() {
   const param = searchParams.get('code');
   const router = useRouter();
 
+  // roomCode를 state으로 지정하지 않으면
+  // input에서 사용자가 코드를 바꿔서 틀려도 url의 roomCode로 진입할 수 있게 됨
   const [roomCode, setRoomCode] = useState<string>(param || '');
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    /**
-     * @todo 투표 코드로 데이터 요청
-     * @todo 데이터 있으면 url에 쿼리로 투표 코드 넘김
-     */
     try {
-      const data = await getVoteAPI(roomCode);
-      router.push(`/participant?${new URLSearchParams({ roomCode: roomCode }).toString()}`);
+      const data = await getVoteAPI(roomCode!);
+      // router.push(`/participant?${new URLSearchParams({ roomCode: roomCode }).toString()}`);
+      data && router.push(`/participant?roomCode=${roomCode}`);
     } catch (error) {
-      /** @todo 에러 핸들링 */
       setIsError(true);
       setErrorMessage('코드가 유효하지 않아요!');
-      // console.log('get vote person error : ', error);
     }
   };
-
   return (
     <div className="max-w-sm mx-auto">
       <div className="flex flex-col gap-16 px-6 py-32">
