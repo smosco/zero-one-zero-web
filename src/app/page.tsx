@@ -3,21 +3,25 @@
 import { getVoteAPI } from '@/api';
 import { RoomCodeContext } from '@/context/RoomCodeContext';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { useState, useContext } from 'react';
 
 export default function Entrance() {
   const router = useRouter();
-
-  const { roomCode, setRoomCode } = useContext(RoomCodeContext);
+  const searchParams = useSearchParams();
+  const param = searchParams.get('roomCode');
+  const { setRoomCode, roomCode, setRoomId } = useContext(RoomCodeContext);
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const data = await getVoteAPI(roomCode!);
+      const { roomId, roomCode } = await getVoteAPI(param || '');
+      setRoomCode!(roomCode);
+      setRoomId!(roomId);
       // router.push(`/participant?${new URLSearchParams({ roomCode: roomCode }).toString()}`);
-      data && router.push(`/participant?roomCode=${roomCode}`);
+      roomId && router.push(`/participant?roomCode=${roomCode}`);
     } catch (error) {
       setIsError(true);
       setErrorMessage('코드가 유효하지 않아요!');

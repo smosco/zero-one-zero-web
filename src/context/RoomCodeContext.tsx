@@ -5,9 +5,9 @@ import { createContext, useState } from 'react';
 
 interface IRoomContext {
   roomCode?: string;
-  roomId?: string;
+  roomId?: number;
   setRoomCode?: React.Dispatch<React.SetStateAction<string>>;
-  setRoomId?: React.Dispatch<React.SetStateAction<string>>;
+  setRoomId?: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const RoomCodeContext = createContext<IRoomContext>({});
@@ -16,8 +16,9 @@ export function RoomCodeProvider({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
   const param = searchParams.get('roomCode');
   const [roomCode, setRoomCode] = useState<string>(param || '');
-  const [roomId, setRoomId] = useState<string>('');
+  const [roomId, setRoomId] = useState<number>(0);
 
+  console.log(roomCode, roomId);
   return (
     <RoomCodeContext.Provider value={{ roomCode, setRoomCode, roomId, setRoomId }}>{children}</RoomCodeContext.Provider>
   );

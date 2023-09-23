@@ -35,10 +35,15 @@ interface VoteData {
   participantList: string[];
 }
 
+export interface IVoteItem {
+  voteValueId: number;
+  selectedSize: number;
+}
 export interface VoteResultInfo {
-  title: string;
-  user: string;
-  votes: Array<Vote>;
+  voteTitle: string;
+  result: IVoteItem[];
+  selectedMaxSize: number;
+  cumulativeVoteCount: number;
 }
 
 interface IVote {
@@ -53,8 +58,8 @@ export const getVoteListAPI = async (): Promise<VoteInfo & ParticipantInfo[]> =>
 };
 
 /** @todo API 통합 */
-export const getVoteResultListAPI = async (): Promise<VoteResultInfo> => {
-  const { data } = await axios.get('/dummy/VoteResultInfo.json');
+export const getVoteResultListAPI = async (roomId: number): Promise<VoteResultInfo> => {
+  const { data } = await axios.get(`vote/room/${roomId}/voteResults`);
   return data;
 };
 
