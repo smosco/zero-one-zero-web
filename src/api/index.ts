@@ -29,11 +29,12 @@ interface VoteData {
 export interface IVoteItem {
   voteValueId: number;
   selectedSize: number;
+  voteLabel: string;
 }
 export interface VoteResultInfo {
   voteTitle: string;
   result: IVoteItem[];
-  selectedMaxSize: number;
+  peopleMaxSize: number;
   cumulativeVoteCount: number;
 }
 interface IVote {

@@ -40,7 +40,7 @@ export default function Entrance() {
             required
             className="h-16 mt-1 block w-full px-3 py-2 bg-white border-2 border-indigo-200 outline-none focus:border-indigo-400 rounded-lg text-md placeholder-gray-400"
           />
-          {isError && <p className="text-gray-200 font-md">{errorMessage}</p>}
+          {isError && <p className="text-gray-300 font-md">{errorMessage}</p>}
         </div>
         <button className="w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white">
           투표 입장
