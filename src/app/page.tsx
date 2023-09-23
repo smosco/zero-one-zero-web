@@ -1,12 +1,15 @@
 'use client';
 
 import { getVoteAPI } from '@/api';
-import { useRouter } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function Entrance() {
+  const searchParams = useSearchParams();
+  const param = searchParams.get('code');
   const router = useRouter();
-  const [code, setCode] = useState<string>('');
+
+  const [roomCode, setRoomCode] = useState<string>(param || '');
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -17,16 +20,13 @@ export default function Entrance() {
      * @todo 데이터 있으면 url에 쿼리로 투표 코드 넘김
      */
     try {
-      const data = await getVoteAPI();
-      if (data) {
-        router.push(`/participant?${new URLSearchParams({ code: code }).toString()}`);
-      } else {
-        setIsError(true);
-        setErrorMessage('코드가 유효하지 않아요!');
-      }
+      const data = await getVoteAPI(roomCode);
+      router.push(`/participant?${new URLSearchParams({ roomCode: roomCode }).toString()}`);
     } catch (error) {
       /** @todo 에러 핸들링 */
-      console.log('get vote person error : ', error);
+      setIsError(true);
+      setErrorMessage('코드가 유효하지 않아요!');
+      // console.log('get vote person error : ', error);
     }
   };
 
@@ -37,13 +37,13 @@ export default function Entrance() {
           <div className="flex flex-col gap-2">
             <input
               type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
+              value={roomCode}
+              onChange={(e) => setRoomCode(e.target.value)}
               placeholder="참여 코드를 입력해주세요"
               required
               className="h-16 mt-1 block w-full px-3 py-2 bg-white border-2 border-indigo-200 outline-none focus:border-indigo-400 rounded-lg text-md placeholder-gray-400"
             />
-            {true && <p className="text-gray-200 font-md">{errorMessage}</p>}
+            {isError && <p className="text-gray-200 font-md">{errorMessage}</p>}
           </div>
           <button className="w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white">
             코드 입력

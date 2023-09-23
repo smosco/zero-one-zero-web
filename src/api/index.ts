@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export interface VoteInfo {
   voteId: number;
   voteCreator: string;
@@ -43,7 +45,7 @@ export const getVoteResultListAPI = async (): Promise<VoteResultInfo> => {
 };
 
 /** @todo API 통합 */
-export const getVoteAPI = async () => {
-  const { data } = await axios.get('/dummy/vote.json');
+export const getVoteAPI = async (roomCode: string) => {
+  const { data } = await axios.get(roomCode);
   return data;
 };
