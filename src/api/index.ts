@@ -78,3 +78,8 @@ export const castVote = async (roomId: number, vote: IVote) => {
   const { data } = await axios.put(`vote/room/${roomId}/putCastVote`, vote);
   return data;
 };
+
+export const finishVote = async (roomId: number, modifyCode: string) => {
+  const { data } = await axios.put(`vote/room/${roomId}/finishVote`, { roomId, modifyCode });
+  return data;
+};

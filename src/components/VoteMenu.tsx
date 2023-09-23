@@ -1,8 +1,8 @@
-import { getVoteListAPI } from '@/api';
 import CheckPasswordModal from '@/components/CheckPasswordModal';
+import { RoomCodeContext } from '@/context/RoomCodeContext';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import ShareModal from './ShareModal';
 
 export type VoteMenuProps = {
@@ -11,9 +11,9 @@ export type VoteMenuProps = {
 
 export default function VoteMenu({ share }: VoteMenuProps) {
   const router = useRouter();
+  const { roomCode, roomId } = useContext(RoomCodeContext);
 
   const [shareOpen, setShareOpen] = useState<boolean>(false);
-  const [code, setCode] = useState<number>(0);
 
   const [mode, setMode] = useState<'' | 'edit' | 'end'>('');
   const open = !!mode;
@@ -26,11 +26,6 @@ export default function VoteMenu({ share }: VoteMenuProps) {
     setMode('end');
   };
 
-  const onCheckPasswordSubmit = () => {
-    if (mode === 'edit') router.push('/make');
-    if (mode === 'end') router.push('/penalty');
-  };
-
   const onCheckPasswordClose = () => {
     setMode('');
   };
@@ -40,8 +35,6 @@ export default function VoteMenu({ share }: VoteMenuProps) {
   };
 
   const onShareClick = async () => {
-    const { voteId } = await getVoteListAPI();
-    setCode(voteId);
     setShareOpen(true);
   };
 
@@ -63,8 +56,8 @@ export default function VoteMenu({ share }: VoteMenuProps) {
           </button>
         </div>
       </div>
-      {shareOpen && <ShareModal onClose={onShareClose} code={code} />}
-      {open && <CheckPasswordModal onSubmit={onCheckPasswordSubmit} onClose={onCheckPasswordClose} />}
+      {shareOpen && <ShareModal onClose={onShareClose} code={roomCode!} />}
+      {open && <CheckPasswordModal roomId={roomId!} onClose={onCheckPasswordClose} />}
     </>
   );
 }

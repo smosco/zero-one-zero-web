@@ -11,7 +11,7 @@ type ShareData = {
 
 type ShareModalProps = {
   onClose: () => void;
-  code: number;
+  code: string;
 };
 
 export default function ShareModal({ onClose, code }: ShareModalProps) {
