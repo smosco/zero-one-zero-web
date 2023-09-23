@@ -9,6 +9,5 @@
 
 #app {
   max-width: var(--max-screen);
-  margin-right: auto;
-  margin-left: auto;
+  margin-inline: auto;
 }

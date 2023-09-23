@@ -10,7 +10,6 @@ import { useState } from 'react';
 export default function Make() {
   const router = useRouter();
 
-  /** @todo API 통합 */
   const [voteTitle, setVoteTitle] = useState<string>('');
   const [voteWriter, setVoteWriter] = useState<string>('');
   const [votePassword, setVotePassword] = useState<string>('');
@@ -73,10 +72,10 @@ export default function Make() {
   };
 
   return (
-    <div className="flex flex-col gap-y-4 px-6">
+    <div className="flex flex-col gap-y-4 px-8 py-10">
       <TextField aria-label="투표 제목" placeholder="투표 제목" value={voteTitle} onChange={changeVoteTitle} />
       <TextField aria-label="투표 작성자" placeholder="투표 작성자" value={voteWriter} onChange={changeVoteWriter} />
-      <TextArea className="w-full px-3 py-3 border rounded-lg" aria-label="내용" placeholder="내용" />
+      <TextArea className="px-3 py-3 border rounded-lg" aria-label="내용" placeholder="내용" />
       <ul className="flex flex-col gap-y-4">
         {voteList.map((vote, idx) => (
           <li key={idx}>
@@ -93,12 +92,15 @@ export default function Make() {
         </li>
       </ul>
       <h2>참가자 명단</h2>
-      <ul>
+      <ul className="grid grid-cols-3 gap-4">
         {participantList.map((participant, idx) => (
-          <li key={idx}>
+          <li
+            key={idx}
+            className="flex items-center justify-center gap-2 w-fit py-2 px-4 rounded-3xl bg-indigo-500 text-white "
+          >
             {participant}
-            <button type="button" onClick={deleteParticipant(idx)}>
-              삭제
+            <button type="button" onClick={deleteParticipant(idx)} className="">
+              x
             </button>
           </li>
         ))}
@@ -109,7 +111,7 @@ export default function Make() {
         disabled={participantAddDisabled}
         onKeyUp={addParticipant}
       />
-      <p>투표 작성자는 생략해주세요</p>
+      <p>투표 작성자 포함해주세요</p>
       <TextField
         type="password"
         aria-label="비밀번호"
