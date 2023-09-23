@@ -1,7 +1,7 @@
 'use client';
 
 import { getVoteAPI } from '@/api';
-import { RoomCodeContext } from '@/context/RoomCodeContext';
+import { RoomContext } from '@/context/RoomContext';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { useState, useContext } from 'react';
@@ -9,19 +9,19 @@ import { useState, useContext } from 'react';
 export default function Entrance() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const param = searchParams.get('roomCode');
-  const { setRoomCode, roomCode, setRoomId } = useContext(RoomCodeContext);
+  const roomCodeParam = searchParams.get('roomCode');
+  const { setRoomCode, setRoomId } = useContext(RoomContext);
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const { roomId, roomCode } = await getVoteAPI(param || '');
+      const { roomId, roomCode } = await getVoteAPI(roomCodeParam!);
       setRoomCode!(roomCode);
       setRoomId!(roomId);
-      // router.push(`/participant?${new URLSearchParams({ roomCode: roomCode }).toString()}`);
-      roomId && router.push(`/participant?roomCode=${roomCode}`);
+
+      roomId && router.push(`/participant`);
     } catch (error) {
       setIsError(true);
       setErrorMessage('코드가 유효하지 않아요!');
@@ -35,7 +35,7 @@ export default function Entrance() {
           <div className="flex flex-col gap-2">
             <input
               type="text"
-              value={roomCode}
+              value={roomCodeParam || ''}
               onChange={(e) => setRoomCode!(e.target.value)}
               placeholder="참여 코드를 입력해주세요"
               required

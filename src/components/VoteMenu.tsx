@@ -1,5 +1,5 @@
 import CheckPasswordModal from '@/components/CheckPasswordModal';
-import { RoomCodeContext } from '@/context/RoomCodeContext';
+import { RoomContext } from '@/context/RoomContext';
 import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
@@ -11,7 +11,7 @@ export type VoteMenuProps = {
 
 export default function VoteMenu({ share }: VoteMenuProps) {
   const router = useRouter();
-  const { roomCode, roomId } = useContext(RoomCodeContext);
+  const { roomCode, roomId } = useContext(RoomContext);
 
   const [shareOpen, setShareOpen] = useState<boolean>(false);
 
@@ -56,7 +56,7 @@ export default function VoteMenu({ share }: VoteMenuProps) {
           </button>
         </div>
       </div>
-      {shareOpen && <ShareModal onClose={onShareClose} code={roomCode!} />}
+      {shareOpen && <ShareModal onClose={onShareClose} roomCode={roomCode!} />}
       {open && <CheckPasswordModal roomId={roomId!} onClose={onCheckPasswordClose} />}
     </>
   );

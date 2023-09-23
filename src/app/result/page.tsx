@@ -2,14 +2,14 @@
 
 import { getVoteResultListAPI, VoteResultInfo } from '@/api';
 import VoteMenu from '@/components/VoteMenu';
-import { RoomCodeContext } from '@/context/RoomCodeContext';
+import { RoomContext } from '@/context/RoomContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
 
 export default function VoteResultPage() {
-  const { roomId } = useContext(RoomCodeContext);
+  const { roomId } = useContext(RoomContext);
   const [voteObject, setVoteObject] = useState<VoteResultInfo>({
     voteTitle: '',
     result: [],

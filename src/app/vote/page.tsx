@@ -2,7 +2,7 @@
 
 import { VoteInfo, castVote, getVoteAPI } from '@/api';
 import VoteMenu from '@/components/VoteMenu';
-import { RoomCodeContext } from '@/context/RoomCodeContext';
+import { RoomContext } from '@/context/RoomContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -15,7 +15,7 @@ export default function VoteDetailPage() {
   const param = searchParams.get('username');
   const username = param || '';
 
-  const { roomCode } = useContext(RoomCodeContext);
+  const { roomCode } = useContext(RoomContext);
   const [voteInfo, setVoteInfo] = useState<VoteInfo>({
     roomId: 0,
     voteCreator: '',
