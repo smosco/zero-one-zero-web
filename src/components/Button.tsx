@@ -8,8 +8,8 @@ export default function Button(props: ButtonProps) {
   return (
     <button
       {...rest}
-      className={clsx('px-3 py-3 border rounded-lg bg-sky-600 border-sky-600 text-white', className, {
-        'bg-slate-600 border-slate-600': disabled,
+      className={clsx('px-3 py-3 rounded-md bg-indigo-500 text-white', className, {
+        'bg-gray-400': disabled,
       })}
       type={type}
       disabled={disabled}

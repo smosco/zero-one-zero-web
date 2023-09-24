@@ -1,13 +1,14 @@
 'use client';
 
+import { RoomContext } from '@/context/RoomContext';
 import html2canvas from 'html2canvas';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 export default function Penalty() {
   const captureRef = useRef<HTMLDivElement>(null);
   const [date, setDate] = useState<string>();
-  const [name, setName] = useState<string>();
+  const { nonVoteUserName } = useContext(RoomContext);
 
   useEffect(() => {
     setDate(new Date().toLocaleDateString());
@@ -55,7 +56,7 @@ export default function Penalty() {
               className="text-black p-10 text-center absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
               style={{ top: '40%' }}
             >
-              미참여자 : {name}
+              미참여자 : {nonVoteUserName}
             </div>
             <div
               className="text-black text-center absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
