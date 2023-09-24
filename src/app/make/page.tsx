@@ -82,25 +82,25 @@ export default function Make() {
     /** @todo API 통합 */
     const { voteTitle, creatorName, modifyCode, voteDescription } = voteInputInfo;
 
-    console.log({
-      voteTitle,
-      creatorName,
-      voteDescription, // API 상으로 뺄 수 있으면 빼기로 하고
-      selectList: voteList.filter((vote) => vote !== ''),
-      participantList,
-      modifyCode,
-    });
+    // console.log({
+    //   voteTitle,
+    //   creatorName,
+    //   voteDescription, // API 상으로 뺄 수 있으면 빼기로 하고
+    //   selectList: voteList.filter((vote) => vote !== ''),
+    //   participantList,
+    //   modifyCode,
+    // });
 
     try {
-      // const { roomCode } = await createVote({
-      //   voteTitle,
-      //   creatorName,
-      //   voteDescription, // API 상으로 뺄 수 있으면 빼기로 하고
-      //   selectList: voteList.filter((vote) => vote !== ''),
-      //   participantList,
-      //   modifyCode,
-      // });
-      // router.push(`/?roomCode=${roomCode}`);
+      const { roomCode } = await createVote({
+        voteTitle,
+        creatorName,
+        voteDescription, // API 상으로 뺄 수 있으면 빼기로 하고
+        selectList: voteList.filter((vote) => vote !== ''),
+        participantList,
+        modifyCode,
+      });
+      router.push(`/?roomCode=${roomCode}`);
     } catch (err) {
       throw new Error('투표 생성에 실패했습니다.');
     }

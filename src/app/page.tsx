@@ -20,6 +20,8 @@ export default function Entrance() {
       const data = await getVoteAPI(roomCodeParam || roomCode || '');
       setRoomCode!(data.roomCode);
       setRoomId!(data.roomId);
+      localStorage.setItem('roomCode', JSON.stringify(data.roomCode));
+      localStorage.setItem('roomId', JSON.stringify(data.roomId));
 
       data.roomId && router.push(`/participant`);
     } catch (error) {
