@@ -15,12 +15,13 @@ export default function VoteMenu({ share }: VoteMenuProps) {
 
   const [shareOpen, setShareOpen] = useState<boolean>(false);
 
-  const [mode, setMode] = useState<'' | 'edit' | 'end'>('');
+  // const [mode, setMode] = useState<'' | 'edit' | 'end'>('');
+  const [mode, setMode] = useState<'' | 'end'>('');
   const open = !!mode;
 
-  const onEditClick = () => {
-    setMode('edit');
-  };
+  // const onEditClick = () => {
+  //   setMode('edit');
+  // };
 
   const onEndClick = () => {
     setMode('end');
@@ -41,19 +42,14 @@ export default function VoteMenu({ share }: VoteMenuProps) {
   return (
     <>
       <div className="w-full flex">
-        <div
-          className={clsx('flex items-center', share ? 'justify-between' : 'justify-end')}
-          style={{ width: '23rem' }}
-        >
+        <div className="flex items-center justify-end">
           <div>
-            <button onClick={onEditClick}>투표 수정</button>
-            <button onClick={onEndClick} className="ml-2">
-              투표 종료
+            {/* <button onClick={onEditClick}>투표 수정</button> */}
+            <button className={`${!shareOpen && 'hidden'}`} onClick={onShareClick}>
+              공유하기
             </button>
+            <button onClick={onEndClick}>투표 종료</button>
           </div>
-          <button className={clsx({ hidden: !share })} onClick={onShareClick}>
-            공유하기
-          </button>
         </div>
       </div>
       {shareOpen && <ShareModal onClose={onShareClose} roomCode={roomCode!} />}

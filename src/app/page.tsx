@@ -10,7 +10,7 @@ export default function Entrance() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const roomCodeParam = searchParams.get('roomCode');
-  const { roomCode, setRoomCode, setRoomId } = useContext(RoomContext);
+  const { roomCode, setRoomCode, setRoomId, setIsVoteFinished } = useContext(RoomContext);
   const [isError, setIsError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -18,10 +18,12 @@ export default function Entrance() {
     e.preventDefault();
     try {
       const data = await getVoteAPI(roomCodeParam || roomCode || '');
-      setRoomCode!(data.roomCode);
-      setRoomId!(data.roomId);
+      setRoomCode(data.roomCode);
+      setRoomId(data.roomId);
+      setIsVoteFinished(data.overed);
       localStorage.setItem('roomCode', JSON.stringify(data.roomCode));
       localStorage.setItem('roomId', JSON.stringify(data.roomId));
+      localStorage.setItem('isVoteFinished', JSON.stringify(data.overed));
 
       data.roomId && router.push(`/participant`);
     } catch (error) {

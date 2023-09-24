@@ -7,13 +7,18 @@ interface IRoomContext {
   roomId?: number;
   nonVoteUserName?: string;
   isVoteFinished?: boolean;
-  setRoomCode?: React.Dispatch<React.SetStateAction<string>>;
-  setRoomId?: React.Dispatch<React.SetStateAction<number>>;
-  setNonVoteUserName?: React.Dispatch<React.SetStateAction<string>>;
-  setIsVoteFinished?: React.Dispatch<React.SetStateAction<boolean>>;
+  setRoomCode: React.Dispatch<React.SetStateAction<string>>;
+  setRoomId: React.Dispatch<React.SetStateAction<number>>;
+  setNonVoteUserName: React.Dispatch<React.SetStateAction<string>>;
+  setIsVoteFinished: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const RoomContext = createContext<IRoomContext>({});
+export const RoomContext = createContext<IRoomContext>({
+  setRoomCode: () => {},
+  setRoomId: () => {},
+  setIsVoteFinished: () => {},
+  setNonVoteUserName: () => {},
+});
 
 export function RoomProvider({ children }: { children: React.ReactNode }) {
   const savedRoomCode = JSON.parse(localStorage.getItem('roomCode')!);

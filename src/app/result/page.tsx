@@ -19,34 +19,24 @@ export default function VoteResultPage() {
 
   console.log(voteResult);
 
-  /** @todo 서버에서 주어지는 데이터 모델 확정 후 변경*/
-  // const userAllNumber = parseInt(voteObject?.user.split('/')[1] || '0');
-  // const voteUserNumber = parseInt(voteObject?.user.split('/')[0] || '0');
-
-  const fetchVoteResult = async () => {
-    try {
-      const res = await getVoteResultListAPI(roomId!);
-      setVoteResult(res);
-    } catch (error) {
-      throw new Error('투표 결과를 가져오지 못했어요!');
-    }
-  };
-
   useEffect(() => {
+    const fetchVoteResult = async () => {
+      try {
+        const res = await getVoteResultListAPI(roomId!);
+        setVoteResult(res);
+      } catch (error) {
+        throw new Error('투표 결과를 가져오지 못했어요!');
+      }
+    };
     fetchVoteResult();
-  }, []);
+  }, [roomId]);
 
   return (
-    <main className="bg-yellow-50 relative flex flex-col h-screen justify-around py-10 px-8">
+    <main className="bg-yellow-50 flex flex-col h-screen justify-around py-10 px-8">
       {voteResult?.result?.length === 0 && <p>투표가 없습니다.</p>}
       <h1 className="text-2xl font-bold text-center">{voteResult?.voteTitle}</h1>
-      <div className="flex justify-end">
-        <Image className=" inline" width={30} height={30} src="/image/icon-user-fill.png" alt="person" />
-        <p>
-          {voteResult?.cumulativeVoteCount}/{voteResult?.peopleMaxSize}
-        </p>
-      </div>
-      <ul className="w-full flex flex-col justify-evenly gap-4">
+
+      <ul className="w-full flex flex-col justify-evenly gap-4 relative">
         {voteResult?.result &&
           voteResult?.result.map((item) => {
             return (
@@ -59,6 +49,12 @@ export default function VoteResultPage() {
               </li>
             );
           })}
+        <div className="absolute -top-7 right-0 flex justify-end">
+          <Image className=" inline" width={30} height={30} src="/image/icon-user-fill.png" alt="person" />
+          <p>
+            {voteResult?.cumulativeVoteCount}/{voteResult?.peopleMaxSize}
+          </p>
+        </div>
       </ul>
       {/* <p className="mb-4">과반수 이상일 시 투표 현황을 공개합니다.</p> */}
       <VoteMenu share={false} />

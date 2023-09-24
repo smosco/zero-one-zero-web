@@ -70,15 +70,18 @@ export default function VoteDetailPage() {
   }, []);
 
   return (
-    <main className="relative flex flex-col h-screen justify-evenly m-10 my-10 py-10 px-8 ">
+    <main className="relative flex flex-col h-screen justify-around py-10 px-8 ">
       {voteInfo.selectList.length === 0 ? (
         <>
           <h1 className="w-full text-2xl text-center mb-4">투표도장에 잉크를 꼼꼼히 바르고 있습니다....</h1>
-          <Image width={500} height={500} src="/image/vote.png" alt="vote" />
+          <Image width={300} height={300} src="/image/vote.png" alt="vote" />
         </>
       ) : (
         <>
-          <h1 className="w-full text-2xl text-center mb-4">{voteInfo?.voteTitle}</h1>
+          <div className="w-full h-fit flex flex-col items-center gap-4">
+            <h1 className="text-2xl ">{voteInfo?.voteTitle}</h1>
+            <p>{voteInfo?.voteDescription}</p>
+          </div>
           <ul className="w-full flex flex-col justify-evenly gap-4">
             {voteInfo.selectList.map(({ voteValuesId, voteLabel }, idx, origin) => {
               return (
@@ -103,9 +106,8 @@ export default function VoteDetailPage() {
           >
             투표
           </button>
-          <div className="flex" style={{ position: 'absolute', bottom: '13%', width: '30rem' }}>
-            <VoteMenu share={true} />
-          </div>
+
+          <VoteMenu share={true} />
         </>
       )}
     </main>
