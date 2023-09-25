@@ -20,11 +20,8 @@ interface IVoteType {
   voteDescription: string;
   selectList: string[];
   participantList: IParticipantList[];
+  overed: boolean;
 }
-
-export const URL_LIST = {
-  result: '/result',
-};
 
 export default function Participant() {
   const router = useRouter();
@@ -101,7 +98,7 @@ export default function Participant() {
             hasSelectedUserName ? 'opacity-100' : 'opacity-60'
           }`}
         >
-          {isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
+          {vote.overed || isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
         </button>
       )}
     </div>
