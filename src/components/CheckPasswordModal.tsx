@@ -12,7 +12,7 @@ export type CheckPasswordModal = {
 
 export default function CheckPasswordModal({ roomId, onClose }: CheckPasswordModal) {
   const router = useRouter();
-  const { roomCode, isVoteFinished, setIsVoteFinished, setNonVoteUserName } = useContext(RoomContext);
+  const { roomCode, setNonVoteUserName } = useContext(RoomContext);
   const [modifyCode, setModifyCode] = useState<string>('');
   const onCheckPasswordSubmit = async () => {
     try {

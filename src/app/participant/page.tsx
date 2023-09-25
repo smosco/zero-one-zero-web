@@ -30,7 +30,6 @@ export default function Participant() {
   const [selectedUserName, setSelectedUserName] = useState('');
   const [vote, setVote] = useState<IVoteType>();
 
-  // https://react-ko.dev/reference/react/useEffect#fetching-data-with-effects
   useEffect(() => {
     (async () => {
       try {
@@ -56,8 +55,6 @@ export default function Participant() {
       setSelectedUserName(userName);
     }
   };
-
-  // https://github.com/hyunjoogo/tdd-todo-example
 
   return (
     <div className="h-screen flex flex-col gap-10 justify-between  px-6 py-10">
@@ -93,7 +90,7 @@ export default function Participant() {
       {vote && (
         <button
           disabled={!hasSelectedUserName}
-          onClick={() => router.push(isCompleted ? '/result' : `/vote/?username=${selectedUserName}`)}
+          onClick={() => router.push(vote.overed || isCompleted ? '/result' : `/vote/?username=${selectedUserName}`)}
           className={`w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white ${
             hasSelectedUserName ? 'opacity-100' : 'opacity-60'
           }`}
