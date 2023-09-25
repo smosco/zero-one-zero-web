@@ -1,4 +1,4 @@
-import { finishVote, getVoteAPI } from '@/api';
+import { finishVote } from '@/api';
 import { RoomContext } from '@/context/RoomContext';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
@@ -12,16 +12,17 @@ export type CheckPasswordModal = {
 
 export default function CheckPasswordModal({ roomId, onClose }: CheckPasswordModal) {
   const router = useRouter();
-  const { roomCode, setNonVoteUserName } = useContext(RoomContext);
+  const { setNonVoteUserName } = useContext(RoomContext);
   const [modifyCode, setModifyCode] = useState<string>('');
   const onCheckPasswordSubmit = async () => {
     try {
       const { name } = await finishVote(roomId, modifyCode);
       setNonVoteUserName!(name);
-      const data = await getVoteAPI(roomCode!);
-      console.log(data);
-      // if (mode==="end")
-      router.push('/penalty');
+      if (window.location.href.includes('/result')) {
+        window.location.reload();
+      } else {
+        router.push('/result');
+      }
     } catch {
       throw new Error('비밀번호가 틀렸어요!');
     }
