@@ -23,7 +23,7 @@ export default function Entrance() {
       localStorage.setItem('roomCode', JSON.stringify(data.roomCode));
       localStorage.setItem('roomId', JSON.stringify(data.roomId));
 
-      data.roomId && router.push(`/participant`);
+      data.roomId && router.push(data.overed ? '/result' : '/participant');
     } catch (error) {
       setIsError(true);
       setErrorMessage('코드가 유효하지 않아요!');

@@ -7,6 +7,17 @@ import { RoomContext } from '@/context/RoomContext';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useContext } from 'react';
+import Penalty from '../penalty/page';
+
+type ParticipantInfo = {
+  participantsName: string;
+  isNameSelected: boolean;
+};
+
+type OveredVoteData = {
+  overed: boolean;
+  nonParticipantList: string[];
+};
 
 export default function VoteResultPage() {
   const { roomCode, roomId } = useContext(RoomContext);
@@ -16,16 +27,23 @@ export default function VoteResultPage() {
     peopleMaxSize: 0,
     cumulativeVoteCount: 0,
   });
-  const [isOvered, setIsOvered] = useState<boolean>();
+  const [voteData, setVoteData] = useState<OveredVoteData>({
+    overed: false,
+    nonParticipantList: [],
+  });
   const { voteTitle, peopleMaxSize, cumulativeVoteCount } = voteResult;
 
   useEffect(() => {
     const fetchVoteResult = async () => {
       try {
         const res = await getVoteResultListAPI(roomId!);
-        const { overed } = await getVoteAPI(roomCode!);
+        const { overed, participantList } = await getVoteAPI(roomCode!);
+        const nonParticipantList: string[] = [];
+        participantList.forEach((person: ParticipantInfo) => {
+          if (!person.isNameSelected) nonParticipantList.push(person.participantsName);
+        });
         setVoteResult(res);
-        setIsOvered(overed);
+        setVoteData({ overed, nonParticipantList });
       } catch (error) {
         throw new Error('투표 결과를 가져오지 못했어요!');
       }
@@ -41,7 +59,7 @@ export default function VoteResultPage() {
       <div className="flex flex-col items-center">
         <h1 className="text-2xl font-bold text-center">{voteTitle}</h1>
         <span className="w-20 text-center text-sm bg-indigo-400 text-white text-bold rounded-[18px] p-1 mt-4">
-          {isOvered ? '종료됨' : '진행중'}
+          {voteData?.overed ? '종료됨' : '진행중'}
         </span>
       </div>
 
@@ -56,7 +74,17 @@ export default function VoteResultPage() {
           </p>
         </div>
       </ul>
-      <VoteMenu share={false} />
+      {voteData?.overed ? (
+        voteData.nonParticipantList.length === 0 ? null : (
+          <Penalty nonPartcipantList={voteData.nonParticipantList} />
+        )
+      ) : (
+        <VoteMenu share={false} />
+      )}
     </main>
   );
 }
+
+// 1. 문항리스트 이쁘게 만들기
+// 2. 페널티 페이지 벌칙자 이름 선택 버튼 만들기
+// 3. 캡쳐하기 위치 변경하기
