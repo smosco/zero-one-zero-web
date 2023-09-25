@@ -11,23 +11,24 @@ type ShareData = {
 
 type ShareModalProps = {
   onClose: () => void;
-  code: number;
+  roomCode: string;
 };
 
-export default function ShareModal({ onClose, code }: ShareModalProps) {
+export default function ShareModal({ onClose, roomCode }: ShareModalProps) {
   const copyRef = useRef<HTMLInputElement>(null);
-  const [input, setInput] = useState<string>('');
+  const [shareUrl, setShareUrl] = useState<string>('');
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   useEffect(() => {
-    if (code.toString().length > 20) {
-      setInput(code.toString().slice(0, 19) + '...');
-    }
-    setInput(code.toString());
-  }, [code]);
+    // if (roomCode.length > 10) {
+    //   setShareUrl(`${siteUrl}?roomCode=${roomCode}`siteUrl + roomCode.slice(0, 9) + '...');
+    // }
+    setShareUrl(`${siteUrl}?roomCode=${roomCode}`);
+  }, [siteUrl, roomCode]);
 
   const onShare = async () => {
     const data: ShareData = {
-      title: `공일공 - 투표를 공유합니다\n\n코드번호 : ${input}`,
+      title: `공일공 - 투표를 공유합니다\n\n코드번호 : ${shareUrl}`,
       url: '',
     };
 
@@ -93,7 +94,7 @@ export default function ShareModal({ onClose, code }: ShareModalProps) {
                     <input
                       className="w-full h-9 outline-none rounded-xl border-[1px] border-gray-300 bg-gray-100 p-2.5 flex justify-between text-xs text-blue-500 cursor-pointer"
                       ref={copyRef}
-                      value={input}
+                      value={shareUrl}
                       readOnly
                     />
                   </div>

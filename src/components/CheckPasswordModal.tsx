@@ -1,24 +1,42 @@
+import { finishVote, getVoteAPI } from '@/api';
+import { RoomContext } from '@/context/RoomContext';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
-import { Fragment, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Fragment, useState, useContext } from 'react';
 
 export type CheckPasswordModal = {
-  onSubmit: () => void;
+  roomId: number;
   onClose: () => void;
 };
 
-export default function CheckPasswordModal({ onSubmit, onClose }: CheckPasswordModal) {
-  const [password, setPassword] = useState<string>('');
+export default function CheckPasswordModal({ roomId, onClose }: CheckPasswordModal) {
+  const router = useRouter();
+  const { roomCode, isVoteFinished, setIsVoteFinished, setNonVoteUserName } = useContext(RoomContext);
+  const [modifyCode, setModifyCode] = useState<string>('');
+  const onCheckPasswordSubmit = async () => {
+    try {
+      const { name } = await finishVote(roomId, modifyCode);
+      setNonVoteUserName!(name);
+      const data = await getVoteAPI(roomCode!);
+      console.log(data);
+      // if (mode==="end")
+      router.push('/penalty');
+    } catch {
+      throw new Error('비밀번호가 틀렸어요!');
+    }
+    // if (mode === 'edit') router.push('/make');
+  };
 
   const onPasswordKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter' && password) {
-      onSubmit();
+    if (event.key === 'Enter' && modifyCode) {
+      onCheckPasswordSubmit();
     }
   };
 
   const onFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    onSubmit();
+    onCheckPasswordSubmit();
   };
 
   return (
@@ -65,8 +83,8 @@ export default function CheckPasswordModal({ onSubmit, onClose }: CheckPasswordM
                       className="h-10 w-full bg-red border-[1.5px] border-solid rounded text-sm p-2 outline-none"
                       type="password"
                       onKeyDown={onPasswordKeyDown}
-                      value={password}
-                      onChange={(event) => setPassword(event.target.value)}
+                      value={modifyCode}
+                      onChange={(event) => setModifyCode(event.target.value)}
                     />
                     <div className="w-full flex justify-end mt-5 mr-[-10px]">
                       <button type="submit" className="bg-blue-500 px-6 py-1.5 rounded-sm text-white text-sm">
