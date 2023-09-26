@@ -42,6 +42,7 @@ export default function VoteResultPage() {
         participantList.forEach((person: ParticipantInfo) => {
           if (!person.isNameSelected) nonParticipantList.push(person.participantsName);
         });
+
         setVoteResult(res);
         setVoteData({ overed, nonParticipantList });
       } catch (error) {
@@ -64,6 +65,7 @@ export default function VoteResultPage() {
       </div>
 
       <ul className="w-full flex flex-col justify-evenly gap-4 relative">
+        <Image className="mr-1" width={15} height={15} src="/image/user.svg" alt="person" />
         {voteResult?.result.map((item) => (
           <VoteResultItem key={item.voteValueId} vote={item} peopleMaxSize={voteResult?.peopleMaxSize} />
         ))}
@@ -79,7 +81,7 @@ export default function VoteResultPage() {
           <Penalty nonPartcipantList={voteData.nonParticipantList} />
         )
       ) : (
-        <VoteMenu share={false} />
+        <VoteMenu />
       )}
     </main>
   );

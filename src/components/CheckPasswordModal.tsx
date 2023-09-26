@@ -4,6 +4,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import { useRouter } from 'next/navigation';
 import { Fragment, useState, useContext } from 'react';
+import Button from './Button';
 
 export type CheckPasswordModal = {
   roomId: number;
@@ -14,6 +15,8 @@ export default function CheckPasswordModal({ roomId, onClose }: CheckPasswordMod
   const router = useRouter();
   const { setNonVoteUserName } = useContext(RoomContext);
   const [modifyCode, setModifyCode] = useState<string>('');
+  const [isError, setIsError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const onCheckPasswordSubmit = async () => {
     try {
       const { name } = await finishVote(roomId, modifyCode);
@@ -24,9 +27,9 @@ export default function CheckPasswordModal({ roomId, onClose }: CheckPasswordMod
         router.push('/result');
       }
     } catch {
-      throw new Error('비밀번호가 틀렸어요!');
+      setIsError(true);
+      setErrorMessage('비밀번호가 잘못되었어요!');
     }
-    // if (mode === 'edit') router.push('/make');
   };
 
   const onPasswordKeyDown = (event: React.KeyboardEvent) => {
@@ -66,32 +69,27 @@ export default function CheckPasswordModal({ roomId, onClose }: CheckPasswordMod
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:max-w-lg w-[330px] h-[220px]">
-                <div className="w-full flex justify-end pt-3 pr-3">
-                  <XMarkIcon className="w-5 cursor-pointer" onClick={onClose} />
-                </div>
-                <div className="mt-[-2px]">
-                  <div className="bg-white px-6 pb-4 w-full">
-                    <div className="mt-3 sm:ml-4 sm:mt-0 text-left">
-                      <Dialog.Title className="text-xl font-semibold text-gray-900">비밀번호 확인</Dialog.Title>
-                      <div className="mt-2">
-                        <p className="text-md text-gray-500">비밀번호를 입력해주세요.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <form className="w-full flex flex-col items-center mt-1 px-10" onSubmit={onFormSubmit}>
+              <Dialog.Panel className="relative w-[330px] p-10 rounded-lg bg-white shadow-xl">
+                <XMarkIcon className="absolute top-4 right-4 w-5 cursor-pointer" onClick={onClose} />
+
+                <div className="w-full flex flex-col gap-4">
+                  <Dialog.Title className="text-xl font-semibold text-gray-900">비밀번호 확인</Dialog.Title>
+                  <form className="flex flex-col" onSubmit={onFormSubmit}>
                     <input
-                      className="h-10 w-full bg-red border-[1.5px] border-solid rounded text-sm p-2 outline-none"
+                      className="h-12 border-[1.5px] rounded-md p-3 outline-indigo-300 mb-2"
+                      placeholder="비밀번호를 입력해주세요"
                       type="password"
                       onKeyDown={onPasswordKeyDown}
                       value={modifyCode}
                       onChange={(event) => setModifyCode(event.target.value)}
                     />
-                    <div className="w-full flex justify-end mt-5 mr-[-10px]">
-                      <button type="submit" className="bg-blue-500 px-6 py-1.5 rounded-sm text-white text-sm">
-                        확인
-                      </button>
-                    </div>
+                    {isError && (
+                      <p className="w-full ml-2 text-red-500 font-medium text-[13px] text-left">{errorMessage}</p>
+                    )}
+
+                    <Button type="submit" className="mt-2">
+                      확인
+                    </Button>
                   </form>
                 </div>
               </Dialog.Panel>
