@@ -4,8 +4,13 @@ import { useContext, useState } from 'react';
 import Button from './Button';
 import ShareModal from './ShareModal';
 
-export default function VoteMenu() {
-  const { roomCode, roomId } = useContext(RoomContext);
+type VoteMenuProps = {
+  roomCode: string | null;
+  roomId: number | null;
+};
+
+export default function VoteMenu({ roomCode, roomId }: VoteMenuProps) {
+  // const { roomCode, roomId } = useContext(RoomContext);
 
   const [shareOpen, setShareOpen] = useState<boolean>(false);
 

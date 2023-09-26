@@ -5,10 +5,14 @@ import html2canvas from 'html2canvas';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
-export default function Penalty({ nonPartcipantList }: { nonPartcipantList: string[] }) {
+type PenaltyProps = {
+  nonParticipantList: string[];
+};
+
+function Penalty(props: PenaltyProps) {
   const captureRef = useRef<HTMLDivElement>(null);
   const [date, setDate] = useState<string>();
-  const [selectedUserName, setSelectedUserName] = useState<string>(nonPartcipantList[0]);
+  const [selectedUserName, setSelectedUserName] = useState<string>(props.nonParticipantList[0]);
 
   useEffect(() => {
     setDate(new Date().toLocaleDateString());
@@ -42,7 +46,7 @@ export default function Penalty({ nonPartcipantList }: { nonPartcipantList: stri
     <div className="relative">
       <h2 className="text-xl font-bold text-center mb-2">미참여자 상장</h2>
       <div className="flex justify-center gap-3 mb-2">
-        {nonPartcipantList.map((person, idx) => {
+        {props.nonParticipantList.map((person, idx) => {
           return (
             <Button key={idx} onClick={() => setSelectedUserName(person)}>
               {person}
@@ -87,3 +91,5 @@ export default function Penalty({ nonPartcipantList }: { nonPartcipantList: stri
     </div>
   );
 }
+
+export default Penalty;

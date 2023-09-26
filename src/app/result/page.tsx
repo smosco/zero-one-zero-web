@@ -1,13 +1,12 @@
 'use client';
 
 import { getVoteAPI, getVoteResultListAPI, VoteResultInfo } from '@/api';
+import Penalty from '@/components/Penalty';
 import VoteMenu from '@/components/VoteMenu';
 import VoteResultItem from '@/components/VoteResultItem';
-import { RoomContext } from '@/context/RoomContext';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import Penalty from '../penalty/page';
 
 type ParticipantInfo = {
   participantsName: string;
@@ -20,7 +19,11 @@ type OveredVoteData = {
 };
 
 export default function VoteResultPage() {
-  const { roomCode, roomId } = useContext(RoomContext);
+  const searchParams = useSearchParams();
+
+  const roomCode = searchParams.get('roomCode');
+  const roomId = searchParams.get('roomId');
+
   const [voteResult, setVoteResult] = useState<VoteResultInfo>({
     voteTitle: '',
     result: [],
@@ -36,13 +39,12 @@ export default function VoteResultPage() {
   useEffect(() => {
     const fetchVoteResult = async () => {
       try {
-        const res = await getVoteResultListAPI(roomId!);
+        const res = await getVoteResultListAPI(Number(roomId));
         const { overed, participantList } = await getVoteAPI(roomCode!);
         const nonParticipantList: string[] = [];
         participantList.forEach((person: ParticipantInfo) => {
           if (!person.isNameSelected) nonParticipantList.push(person.participantsName);
         });
-
         setVoteResult(res);
         setVoteData({ overed, nonParticipantList });
       } catch (error) {
@@ -78,10 +80,10 @@ export default function VoteResultPage() {
       </ul>
       {voteData?.overed ? (
         voteData.nonParticipantList.length === 0 ? null : (
-          <Penalty nonPartcipantList={voteData.nonParticipantList} />
+          <Penalty nonParticipantList={voteData.nonParticipantList} />
         )
       ) : (
-        <VoteMenu />
+        <VoteMenu roomCode={roomCode} roomId={Number(roomId)} />
       )}
     </main>
   );
