@@ -1,6 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
 import React, { Fragment, useEffect, useRef, useState } from 'react';
+import Button from './Button';
 
 type ShareData = {
   url?: string;
@@ -20,9 +21,6 @@ export default function ShareModal({ onClose, roomCode }: ShareModalProps) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   useEffect(() => {
-    // if (roomCode.length > 10) {
-    //   setShareUrl(`${siteUrl}?roomCode=${roomCode}`siteUrl + roomCode.slice(0, 9) + '...');
-    // }
     setShareUrl(`${siteUrl}?roomCode=${roomCode}`);
   }, [siteUrl, roomCode]);
 
@@ -80,33 +78,28 @@ export default function ShareModal({ onClose, roomCode }: ShareModalProps) {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-gray-100 text-left shadow-xl transition-all sm:my-8 sm:max-w-lg w-[330px] h-[180px]">
-                <div className="w-full flex justify-end pt-3 pr-3">
-                  <XMarkIcon className="w-6 cursor-pointer" onClick={onClose} />
-                </div>
-                <div className="px-6 w-full mt-[-10px]">
-                  <div className="mt-3 sm:ml-4 sm:mt-0 text-center">
-                    <Dialog.Title className="text-xl font-semibold text-gray-900">공유하기</Dialog.Title>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div onClick={onCopyText}>
+              <Dialog.Panel className="relative min-w-[350px] p-8 rounded-lg bg-white shadow-xl">
+                <XMarkIcon className="absolute top-4 right-4 w-5 cursor-pointer" onClick={onClose} />
+
+                <div className="flex flex-col gap-4">
+                  <Dialog.Title className="text-xl font-semibold text-gray-900">공유하기</Dialog.Title>
+
+                  <div className="relative w-full h-10" onClick={onCopyText}>
                     <input
-                      className="w-full h-9 outline-none rounded-xl border-[1px] border-gray-300 bg-gray-100 p-2.5 flex justify-between text-xs text-blue-500 cursor-pointer"
+                      className="w-full h-full outline-indigo-200 rounded-xl border border-indigo-200 bg-white p-2.5 text-sm text-gray-400 cursor-pointer"
                       ref={copyRef}
                       value={shareUrl}
                       readOnly
                     />
+                    <button
+                      className="absolute top-0 right-0 w-15 px-4 h-full rounded-r-xl text-white bg-indigo-500 borde"
+                      onClick={onCopyText}
+                    >
+                      복사
+                    </button>
                   </div>
-                  <button
-                    className="absolute top-20 mt-[-1.8px] text-xs w-15 h-9 right-6 bg-gray-200 py-[9.3px] px-1 rounded-r-xl text-gray-500 border-[1px] border-gray-300 hover:bg-gray-300 hover:text-gray-600 outline-none"
-                    onClick={onCopyText}
-                  >
-                    코드 복사
-                  </button>
-                </div>
-                <div className="w-full flex justify-center">
-                  <button className="text-xs" onClick={onShare}>
+
+                  <button type="submit" className="text-[14px] hover:underline" onClick={onShare}>
                     또는 바로 공유하기
                   </button>
                 </div>

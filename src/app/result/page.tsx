@@ -79,7 +79,7 @@ export default function VoteResultPage() {
           <Penalty nonPartcipantList={voteData.nonParticipantList} />
         )
       ) : (
-        <VoteMenu share={false} />
+        <VoteMenu />
       )}
     </main>
   );

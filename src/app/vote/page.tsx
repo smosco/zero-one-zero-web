@@ -107,7 +107,7 @@ export default function VoteDetailPage() {
             투표
           </button>
 
-          <VoteMenu share={true} />
+          <VoteMenu />
         </>
       )}
     </main>
