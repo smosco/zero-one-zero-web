@@ -5,7 +5,7 @@ import Button from '@/components/Button';
 import { RoomContext } from '@/context/RoomContext';
 import clsx from 'clsx';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useContext } from 'react';
 
 interface IParticipantList {
@@ -26,8 +26,9 @@ interface IVoteType {
 
 export default function Participant() {
   const router = useRouter();
-
-  const { roomCode } = useContext(RoomContext);
+  const searchParams = useSearchParams();
+  const roomCode = searchParams.get('roomCode');
+  const roomId = searchParams.get('roomId');
   const [selectedUserName, setSelectedUserName] = useState('');
   const [vote, setVote] = useState<IVoteType>();
 
@@ -94,7 +95,13 @@ export default function Participant() {
             type="button"
             className={`h-16 ${hasSelectedUserName ? 'opacity-100' : 'opacity-60'}`}
             disabled={!hasSelectedUserName}
-            onClick={() => router.push(vote.overed || isCompleted ? '/result' : `/vote/?username=${selectedUserName}`)}
+            onClick={() =>
+              router.push(
+                vote.overed || isCompleted
+                  ? `/result/?roomCode=${roomCode}&roomId=${roomId}`
+                  : `/vote/?username=${selectedUserName}&roomCode=${roomCode}`,
+              )
+            }
           >
             {vote.overed || isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
           </Button>

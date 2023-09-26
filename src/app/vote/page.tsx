@@ -14,9 +14,10 @@ export default function VoteDetailPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const param = searchParams.get('username');
+  const roomCode = searchParams.get('roomCode');
+  const roomId = searchParams.get('roomId');
   const username = param || '';
 
-  const { roomCode } = useContext(RoomContext);
   const [voteInfo, setVoteInfo] = useState<VoteInfo>({
     roomId: 0,
     voteCreator: '',
@@ -53,7 +54,7 @@ export default function VoteDetailPage() {
       const { roomId } = voteInfo;
       castVote(roomId, { userName: username, voteValueId: selectedVote });
       window.alert('투표 완료!');
-      router.push('/result');
+      router.push(`/result/?roomCode=${roomCode}&roomId=${roomId}`);
     } catch (err) {
       throw new Error('투표를 가져오는데 문제가 생겼습니다.');
     }
@@ -104,7 +105,7 @@ export default function VoteDetailPage() {
           <Button type="submit" onClick={onSubmitClick}>
             투표
           </Button>
-          <VoteMenu />
+          <VoteMenu roomCode={roomCode} roomId={Number(roomId)} />
         </>
       )}
     </main>

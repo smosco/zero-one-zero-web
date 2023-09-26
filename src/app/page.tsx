@@ -20,10 +20,16 @@ export default function Entrance() {
       const data = await getVoteAPI(roomCodeParam || roomCode || '');
       setRoomCode(data.roomCode);
       setRoomId(data.roomId);
-      localStorage.setItem('roomCode', JSON.stringify(data.roomCode));
-      localStorage.setItem('roomId', JSON.stringify(data.roomId));
+      // 쿼리 스트링을 활용하기로 함
+      // localStorage.setItem('roomCode', JSON.stringify(data.roomCode));
+      // localStorage.setItem('roomId', JSON.stringify(data.roomId));
 
-      data.roomId && router.push(data.overed ? '/result' : '/participant');
+      data.roomId &&
+        router.push(
+          data.overed
+            ? `/result/?roomCode=${data.roomCode}&roomId=${data.roomId}`
+            : `/participant/?roomCode=${data.roomCode}&roomId=${data.roomId}`,
+        );
     } catch (error) {
       setIsError(true);
       setErrorMessage('코드가 유효하지 않아요!');
