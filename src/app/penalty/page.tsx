@@ -1,14 +1,14 @@
 'use client';
 
-import { RoomContext } from '@/context/RoomContext';
+import Button from '@/components/Button';
 import html2canvas from 'html2canvas';
 import Image from 'next/image';
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
-export default function Penalty() {
+export default function Penalty({ nonPartcipantList }: { nonPartcipantList: string[] }) {
   const captureRef = useRef<HTMLDivElement>(null);
   const [date, setDate] = useState<string>();
-  const { nonVoteUserName } = useContext(RoomContext);
+  const [selectedUserName, setSelectedUserName] = useState<string>(nonPartcipantList[0]);
 
   useEffect(() => {
     setDate(new Date().toLocaleDateString());
@@ -39,45 +39,50 @@ export default function Penalty() {
     }
   };
   return (
-    <div className="relative h-screen text-xs">
-      <div
-        className="bg-black flex justify-center mt-4 absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
-        style={{ top: '7%' }}
-      >
-        <button className="text-white z-10" onClick={onCaptureClick}>
-          캡쳐하기
-        </button>
+    <div className="relative">
+      <h2 className="text-xl font-bold text-center mb-2">미참여자 상장</h2>
+      <div className="flex justify-center gap-3 mb-2">
+        {nonPartcipantList.map((person, idx) => {
+          return (
+            <Button key={idx} onClick={() => setSelectedUserName(person)}>
+              {person}
+            </Button>
+          );
+        })}
       </div>
-      <div className="flex h-full justify-center items-center">
-        <div ref={captureRef} className="relative mx-auto border-black border">
-          <Image src="/image/appointment.jpg" alt="Your description" width="320" height="423" />
-          <div className="absolute inset-0">
-            <div
-              className="text-black p-10 text-center absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              style={{ top: '40%' }}
-            >
-              미참여자 : {nonVoteUserName}
-            </div>
-            <div
-              className="text-black text-center absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              style={{ top: '55%' }}
-            >
-              위 사람은 투표에 미참여
-              <br />
-              하였으므로
-              <br /> 이 상장을 드립니다.
-            </div>
-            <div className="text-black  text-center absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-              상장
-            </div>
-            <div
-              className="text-black p-10  text-center absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
-              style={{ top: `80%` }}
-            >
-              {date}
-            </div>
+      <div ref={captureRef} className="relative mx-auto border-black border text-sm">
+        <Image src="/image/appointment.jpg" alt="Your description" width="320" height="423" />
+        <div className="absolute inset-0">
+          <div
+            className="text-black p-10 text-center absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            style={{ top: '40%' }}
+          >
+            미참여자 : {selectedUserName}
+          </div>
+          <div
+            className="text-black text-center absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            style={{ top: '55%' }}
+          >
+            위 사람은 투표에 미참여
+            <br />
+            하였으므로
+            <br /> 이 상장을 드립니다.
+          </div>
+          <div className="text-black  text-center absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            상장
+          </div>
+          <div
+            className="text-black p-10  text-center absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
+            style={{ top: `80%` }}
+          >
+            {date}
           </div>
         </div>
+      </div>
+      <div className="bg-black flex justify-center">
+        <button className="text-white" onClick={onCaptureClick}>
+          캡쳐하기
+        </button>
       </div>
     </div>
   );
