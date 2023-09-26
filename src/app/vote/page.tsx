@@ -1,6 +1,7 @@
 'use client';
 
 import { VoteInfo, castVote, getVoteAPI } from '@/api';
+import Button from '@/components/Button';
 import VoteMenu from '@/components/VoteMenu';
 import { RoomContext } from '@/context/RoomContext';
 import clsx from 'clsx';
@@ -100,13 +101,9 @@ export default function VoteDetailPage() {
               );
             })}
           </ul>
-          <button
-            className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={onSubmitClick}
-          >
+          <Button type="submit" onClick={onSubmitClick}>
             투표
-          </button>
-
+          </Button>
           <VoteMenu />
         </>
       )}

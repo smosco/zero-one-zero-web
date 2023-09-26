@@ -1,6 +1,7 @@
 'use client';
 
 import { getVoteAPI } from '@/api';
+import Button from '@/components/Button';
 import { RoomContext } from '@/context/RoomContext';
 import clsx from 'clsx';
 import Image from 'next/image';
@@ -88,15 +89,16 @@ export default function Participant() {
         ))}
       </ul>
       {vote && (
-        <button
-          disabled={!hasSelectedUserName}
-          onClick={() => router.push(vote.overed || isCompleted ? '/result' : `/vote/?username=${selectedUserName}`)}
-          className={`w-full h-16 flex justify-center items-center rounded-md bg-indigo-500 text-white ${
-            hasSelectedUserName ? 'opacity-100' : 'opacity-60'
-          }`}
-        >
-          {vote.overed || isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
-        </button>
+        <>
+          <Button
+            type="button"
+            className={`h-16 ${hasSelectedUserName ? 'opacity-100' : 'opacity-60'}`}
+            disabled={!hasSelectedUserName}
+            onClick={() => router.push(vote.overed || isCompleted ? '/result' : `/vote/?username=${selectedUserName}`)}
+          >
+            {vote.overed || isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
+          </Button>
+        </>
       )}
     </div>
   );
