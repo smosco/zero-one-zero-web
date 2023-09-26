@@ -8,7 +8,7 @@ type VoteResultItemProp = {
 
 function VoteResultItem({ vote, peopleMaxSize }: VoteResultItemProp) {
   const { voteValueId, voteLabel, selectedSize } = vote;
-  const ratio: number = (selectedSize / peopleMaxSize) * 100;
+  const ratio: number = Math.round((selectedSize / peopleMaxSize) * 100 * 10) / 10;
 
   return (
     <li

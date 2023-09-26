@@ -8,7 +8,7 @@ export default function Button(props: ButtonProps) {
   return (
     <button
       {...rest}
-      className={clsx('px-3 py-3 rounded-md bg-indigo-500 text-white', className, {
+      className={clsx('p-3 rounded-lg bg-indigo-500 text-white', className, {
         'bg-gray-400': disabled,
       })}
       type={type}
