@@ -1,7 +1,5 @@
 import CheckPasswordModal from '@/components/CheckPasswordModal';
-import { RoomContext } from '@/context/RoomContext';
-import { useContext, useState } from 'react';
-import Button from './Button';
+import { useState } from 'react';
 import ShareModal from './ShareModal';
 
 type VoteMenuProps = {
@@ -10,8 +8,6 @@ type VoteMenuProps = {
 };
 
 export default function VoteMenu({ roomCode, roomId }: VoteMenuProps) {
-  // const { roomCode, roomId } = useContext(RoomContext);
-
   const [shareOpen, setShareOpen] = useState<boolean>(false);
 
   const [mode, setMode] = useState<'' | 'end'>('');
@@ -35,13 +31,13 @@ export default function VoteMenu({ roomCode, roomId }: VoteMenuProps) {
 
   return (
     <>
-      <div className="w-full flex justify-center items-center gap-4">
-        <Button type="button" onClick={onShareClick}>
+      <div className="w-full flex justify-end items-center gap-2">
+        <button className="hover:underline text-sm" onClick={onShareClick}>
           공유하기
-        </Button>
-        <Button type="button" onClick={onEndClick}>
-          투표 종료
-        </Button>
+        </button>
+        <button className="hover:underline text-sm" onClick={onEndClick}>
+          투표종료
+        </button>
       </div>
 
       {shareOpen && <ShareModal onClose={onShareClose} roomCode={roomCode!} />}
