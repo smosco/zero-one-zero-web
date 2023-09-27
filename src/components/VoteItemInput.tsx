@@ -9,9 +9,9 @@ type VoteItemInputProps = {
 
 function VoteItemInput({ itemName, itemNameChange, itemDelete, preventItemDelete }: VoteItemInputProps) {
   return (
-    <li>
-      <TextField placeholder="투표 항목" value={itemName} onChange={itemNameChange} />
-      <Button onClick={itemDelete} disabled={preventItemDelete}>
+    <li className="w-full flex items-center justify-between">
+      <TextField placeholder="투표 항목" value={itemName} onChange={itemNameChange} className="w-[80%]" />
+      <Button onClick={itemDelete} disabled={preventItemDelete} className="h-full text-sm">
         삭제
       </Button>
     </li>
