@@ -54,13 +54,11 @@ export default function VoteResultPage() {
     fetchVoteResult();
   }, [roomCode, roomId]);
 
-  // console.log(voteResult);
-
   return (
     <main className="container overflow-y-scroll justify-between flex flex-col gap-8">
-      {voteResult?.result?.length === 0 && <p>투표 항목이 없어요. 다시 만들어 주세요.</p>}
+      {voteResult?.result?.length === 0 && <p className="container">투표 항목이 없어요.</p>}
       <div className="flex flex-col gap-2 items-center">
-        <h1 className="text-2xl font-bold">{voteTitle}</h1>
+        <h1 className="text-2xl font-bold text-center">{voteTitle}</h1>
         <span className="w-20 text-center text-sm bg-indigo-400 text-white text-bold rounded-[18px] p-1">
           {voteData?.overed ? '종료됨' : '진행중'}
         </span>
