@@ -38,7 +38,7 @@ export default function VoteMenu({ roomCode, roomId, back }: VoteMenuProps) {
 
   return (
     <>
-      <div className="w-full flex justify-between items-center">
+      <div className={`w-full flex ${back ? 'justify-between' : 'justify-end'} items-center`}>
         {back && (
           <button className="hover:underline text-sm" onClick={onGoBackClick}>
             투표 만들러 가기

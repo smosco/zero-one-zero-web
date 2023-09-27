@@ -32,7 +32,3 @@
   border-radius: 10px;
   background-clip: padding-box;
 }
-::-webkit-scrollbar-track {
-  background-color: rgba(214, 214, 214, 0.249);
-  border-radius: 2px;
-}

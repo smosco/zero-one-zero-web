@@ -57,7 +57,7 @@ export default function VoteResultPage() {
   // console.log(voteResult);
 
   return (
-    <main className="container overflow-y-scroll flex flex-col gap-8">
+    <main className="container overflow-y-scroll justify-between flex flex-col gap-8">
       {voteResult?.result?.length === 0 && <p>투표 항목이 없어요. 다시 만들어 주세요.</p>}
       <div className="flex flex-col gap-2 items-center">
         <h1 className="text-2xl font-bold">{voteTitle}</h1>
