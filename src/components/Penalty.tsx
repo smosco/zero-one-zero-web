@@ -16,11 +16,6 @@ function Penalty(props: PenaltyProps) {
 
   useEffect(() => {
     setDate(new Date().toLocaleDateString());
-    /** @todo API 통합 */
-    // (async () => {
-    //   const { data } = await axios.get('url');
-    //   setName(data.name);
-    // })();
   }, []);
 
   const onCaptureClick = () => {
@@ -43,9 +38,9 @@ function Penalty(props: PenaltyProps) {
     }
   };
   return (
-    <div className="relative">
-      <h2 className="text-xl font-bold text-center mb-2">미참여자 상장</h2>
-      <div className="flex justify-center gap-3 mb-2">
+    <div className="flex flex-col gap-4 relative">
+      <h2 className="text-xl font-bold text-center">미참여자 상장</h2>
+      <ul className="flex justify-center gap-3">
         {props.nonParticipantList.map((person, idx) => {
           return (
             <Button key={idx} onClick={() => setSelectedUserName(person)}>
@@ -53,41 +48,34 @@ function Penalty(props: PenaltyProps) {
             </Button>
           );
         })}
-      </div>
-      <div ref={captureRef} className="relative mx-auto border-black border text-sm">
-        <Image src="/image/appointment.jpg" alt="Your description" width="320" height="423" />
-        <div className="absolute inset-0">
-          <div
-            className="text-black p-10 text-center absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-            style={{ top: '40%' }}
-          >
-            미참여자 : {selectedUserName}
-          </div>
-          <div
-            className="text-black text-center absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-            style={{ top: '55%' }}
-          >
-            위 사람은 투표에 미참여
-            <br />
-            하였으므로
-            <br /> 이 상장을 드립니다.
-          </div>
-          <div className="text-black  text-center absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+      </ul>
+      <div ref={captureRef} className="flex justify-center items-center relative mx-auto text-sm">
+        <Image src="/image/frame.jpg" alt="price frame image" width={300} height={350} />
+        <div className="absolute inset-0 flex flex-col items-center text-center">
+          <p className="text-2xl font-bold absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             상장
-          </div>
-          <div
-            className="text-black p-10  text-center absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 "
-            style={{ top: `80%` }}
+          </p>
+          <p className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2" style={{ top: '35%' }}>
+            미참여자 : {selectedUserName}
+          </p>
+          <p
+            className="w-full absolute left-1/2 transform text-[12px] -translate-x-1/2 -translate-y-1/2"
+            style={{ top: '52%' }}
+          >
+            위 사람은 팀원들의 닦달에도
+            <br />
+            꿋꿋이 투표를 하지 않은 용기에
+            <br /> 이 상장을 드립니다.
+          </p>
+          <p
+            className="absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[12px]"
+            style={{ top: `75%` }}
           >
             {date}
-          </div>
+          </p>
         </div>
       </div>
-      <div className="bg-black flex justify-center">
-        <button className="text-white" onClick={onCaptureClick}>
-          캡쳐하기
-        </button>
-      </div>
+      <Button onClick={onCaptureClick}>다운로드</Button>
     </div>
   );
 }

@@ -13,14 +13,14 @@ function VoteResultItem({ vote, peopleMaxSize }: VoteResultItemProp) {
   return (
     <li
       key={voteValueId}
-      className="relative flex justify-between items-center rounded-[18px] border border-indigo-200 overflow-hidden p-4"
+      className="relative flex justify-between items-center rounded-xl border border-indigo-200 overflow-hidden p-4"
     >
       <span className="z-10">
         {voteLabel} {ratio}%
       </span>
       <div
         style={{ width: `${ratio}%` }}
-        className="absolute top-0 left-0 h-full border-r border-indigo-200 bg-indigo-100"
+        className={`absolute top-0 left-0 h-full ${ratio !== 0 && 'border-r'} border-indigo-200 bg-indigo-100`}
       >
         <span className="hidden">view percentage of vote item</span>
       </div>
