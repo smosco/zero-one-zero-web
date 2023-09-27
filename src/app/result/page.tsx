@@ -57,17 +57,16 @@ export default function VoteResultPage() {
   // console.log(voteResult);
 
   return (
-    <main className="flex flex-col h-screen justify-between items-center py-10 px-8">
+    <main className="container overflow-y-scroll flex flex-col gap-8">
       {voteResult?.result?.length === 0 && <p>투표 항목이 없어요. 다시 만들어 주세요.</p>}
-      <div className="flex flex-col items-center">
-        <h1 className="text-2xl font-bold text-center">{voteTitle}</h1>
-        <span className="w-20 text-center text-sm bg-indigo-400 text-white text-bold rounded-[18px] p-1 mt-4">
+      <div className="flex flex-col gap-2 items-center">
+        <h1 className="text-2xl font-bold">{voteTitle}</h1>
+        <span className="w-20 text-center text-sm bg-indigo-400 text-white text-bold rounded-[18px] p-1">
           {voteData?.overed ? '종료됨' : '진행중'}
         </span>
       </div>
 
-      <ul className="w-full flex flex-col justify-evenly gap-4 relative">
-        <Image className="mr-1" width={15} height={15} src="/image/user.svg" alt="person" />
+      <ul className="flex flex-col justify-evenly gap-4 relative mt-8">
         {voteResult?.result.map((item) => (
           <VoteResultItem key={item.voteValueId} vote={item} peopleMaxSize={voteResult?.peopleMaxSize} />
         ))}

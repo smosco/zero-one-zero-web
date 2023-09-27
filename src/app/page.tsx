@@ -52,7 +52,9 @@ export default function Entrance() {
         />
         {isError && <p className="text-red-400 text-sm ml-1">{errorMessage}</p>}
 
-        <Button className="w-full h-16">투표 입장</Button>
+        <Button type="submit" className="w-full h-16">
+          투표 입장
+        </Button>
       </form>
       <Button
         className="w-full h-16"
