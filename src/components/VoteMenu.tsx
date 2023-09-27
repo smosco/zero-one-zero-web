@@ -6,10 +6,11 @@ import ShareModal from './ShareModal';
 type VoteMenuProps = {
   roomCode: string | null;
   roomId: number | null;
+  end?: boolean;
   back?: boolean;
 };
 
-export default function VoteMenu({ roomCode, roomId, back }: VoteMenuProps) {
+export default function VoteMenu({ roomCode, roomId, back, end }: VoteMenuProps) {
   const router = useRouter();
   const [shareOpen, setShareOpen] = useState<boolean>(false);
 
@@ -48,9 +49,11 @@ export default function VoteMenu({ roomCode, roomId, back }: VoteMenuProps) {
           <button className="hover:underline text-sm" onClick={onShareClick}>
             공유하기
           </button>
-          <button className="hover:underline text-sm" onClick={onEndClick}>
-            투표종료
-          </button>
+          {end && (
+            <button className="hover:underline text-sm" onClick={onEndClick}>
+              투표종료
+            </button>
+          )}
         </div>
       </div>
 

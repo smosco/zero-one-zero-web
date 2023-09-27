@@ -78,10 +78,13 @@ export default function VoteResultPage() {
       </div>
       {voteData?.overed ? (
         voteData.nonParticipantList.length === 0 ? null : (
-          <Penalty nonParticipantList={voteData.nonParticipantList} />
+          <>
+            <Penalty nonParticipantList={voteData.nonParticipantList} />
+            <VoteMenu roomCode={roomCode} roomId={Number(roomId)} back={true} />
+          </>
         )
       ) : (
-        <VoteMenu roomCode={roomCode} roomId={Number(roomId)} back={true} />
+        <VoteMenu roomCode={roomCode} roomId={Number(roomId)} end={true} back={true} />
       )}
     </main>
   );
