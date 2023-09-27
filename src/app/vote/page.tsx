@@ -77,7 +77,7 @@ export default function VoteDetailPage() {
         <>
           <div className="w-full h-fit flex flex-col items-center gap-8">
             <div className="flex flex-col items-center gap-4">
-              <h1 className="text-xl font-semibold">{voteInfo?.voteTitle}</h1>
+              <h1 className="text-2xl font-semibold">{voteInfo?.voteTitle}</h1>
               <p className="text-gray-400">{voteInfo?.voteDescription}</p>
             </div>
             <ul className="w-full flex flex-col justify-evenly gap-4">
