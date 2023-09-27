@@ -58,39 +58,42 @@ export default function Participant() {
   };
 
   return (
-    <div className="container flex flex-col justify-around">
+    <div className="container flex flex-col gap-8 justify-between">
       <div className="w-full flex flex-col gap-2 items-center">
         <h1 className="text-2xl font-semibold">{vote?.voteTitle}</h1>
         <p className="text-gray-400">{vote?.voteDescription}</p>
       </div>
-      <ul
-        className={clsx(
-          'h-[25rem] w-full grid gap-4 overflow-y-scroll rounded-lg',
-          participantMoreThanSix ? 'grid-cols-3' : 'grid-cols-2',
-        )}
-      >
-        {vote?.participantList.map(({ participantsId, participantsName, isNameSelected }) => (
-          <li
-            key={participantsId}
-            onClick={() => changeUser(participantsName)}
-            className={clsx(
-              'h-[8rem] flex justify-center items-center relative rounded-lg overflow-hidden bg-indigo-50 border-2 border-solid cursor-pointer',
-              selectedUserName === participantsName ? 'border-indigo-200' : 'border-gray-100',
-            )}
-          >
-            <p className="font-medium">{participantsName}</p>
-            {isNameSelected && (
-              <Image
-                src="/images/marker.png"
-                width={30}
-                height={30}
-                alt="doneVote icon"
-                className="absolute top-3 right-3"
-              />
-            )}
-          </li>
-        ))}
-      </ul>
+      <div className="flex flex-col gap-4">
+        <p className="text-center font-semibold">투표자 이름을 선택해주세요</p>
+        <ul
+          className={clsx(
+            'h-[25rem] w-full grid gap-4 overflow-y-scroll rounded-lg',
+            participantMoreThanSix ? 'grid-cols-3' : 'grid-cols-2',
+          )}
+        >
+          {vote?.participantList.map(({ participantsId, participantsName, isNameSelected }) => (
+            <li
+              key={participantsId}
+              onClick={() => changeUser(participantsName)}
+              className={clsx(
+                'h-[8rem] flex justify-center items-center relative rounded-lg overflow-hidden bg-indigo-50 border-2 border-solid cursor-pointer',
+                selectedUserName === participantsName ? 'border-indigo-200' : 'border-gray-100',
+              )}
+            >
+              <p className="font-medium">{participantsName}</p>
+              {isNameSelected && (
+                <Image
+                  src="/images/marker.png"
+                  width={30}
+                  height={30}
+                  alt="doneVote icon"
+                  className="absolute top-3 right-3"
+                />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
       {vote && (
         <Button
           type="button"

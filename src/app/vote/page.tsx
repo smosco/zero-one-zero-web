@@ -67,7 +67,7 @@ export default function VoteDetailPage() {
   }, []);
 
   return (
-    <main className="container relative flex flex-col gap-8 overflow-y-scroll">
+    <main className="container relative flex flex-col justify-between gap-8 overflow-y-scroll">
       {voteInfo.selectList.length === 0 ? (
         <div className="container">
           <h1 className="w-full text-2xl text-center font-bold mb-4">투표도장에 잉크를 꼼꼼히 바르고 있습니다....</h1>
@@ -75,27 +75,30 @@ export default function VoteDetailPage() {
         </div>
       ) : (
         <>
-          <div className="w-full h-fit flex flex-col items-center gap-4">
-            <h1 className="text-xl font-semibold">{voteInfo?.voteTitle}</h1>
-            <p className="text-gray-400">{voteInfo?.voteDescription}</p>
+          <div className="w-full h-fit flex flex-col items-center gap-8">
+            <div className="flex flex-col items-center gap-4">
+              <h1 className="text-xl font-semibold">{voteInfo?.voteTitle}</h1>
+              <p className="text-gray-400">{voteInfo?.voteDescription}</p>
+            </div>
+            <ul className="w-full flex flex-col justify-evenly gap-4">
+              {voteInfo.selectList.map(({ voteValuesId, voteLabel }, idx) => {
+                return (
+                  <li
+                    key={voteValuesId}
+                    onClick={() => selectVote(voteValuesId)}
+                    className={clsx(
+                      idx === 0 ? 'rounded-tl-md rounded-tr-md' : '',
+                      selectedBtnIndex === voteValuesId ? 'z-10 border-indigo-200 bg-indigo-50' : 'border-gray-200',
+                      'relative cursor-pointer border px-4 py-3 rounded-md focus:outline-none',
+                    )}
+                  >
+                    <span className="font-medium">{voteLabel}</span>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
-          <ul className="w-full flex flex-col justify-evenly gap-4">
-            {voteInfo.selectList.map(({ voteValuesId, voteLabel }, idx) => {
-              return (
-                <li
-                  key={voteValuesId}
-                  onClick={() => selectVote(voteValuesId)}
-                  className={clsx(
-                    idx === 0 ? 'rounded-tl-md rounded-tr-md' : '',
-                    selectedBtnIndex === voteValuesId ? 'z-10 border-indigo-200 bg-indigo-50' : 'border-gray-200',
-                    'relative cursor-pointer border px-4 py-3 rounded-md focus:outline-none',
-                  )}
-                >
-                  <span className="font-medium">{voteLabel}</span>
-                </li>
-              );
-            })}
-          </ul>
+
           <div className="flex flex-col gap-4">
             <Button type="submit" onClick={onSubmitClick}>
               투표
