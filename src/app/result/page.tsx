@@ -82,7 +82,7 @@ export default function VoteResultPage() {
           <Penalty nonParticipantList={voteData.nonParticipantList} />
         )
       ) : (
-        <VoteMenu roomCode={roomCode} roomId={Number(roomId)} />
+        <VoteMenu roomCode={roomCode} roomId={Number(roomId)} back={true} />
       )}
     </main>
   );
