@@ -2,11 +2,10 @@
 
 import { getVoteAPI } from '@/api';
 import Button from '@/components/Button';
-import { RoomContext } from '@/context/RoomContext';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 
 interface IParticipantList {
   participantsId: number;
@@ -59,53 +58,57 @@ export default function Participant() {
   };
 
   return (
-    <div className="h-screen flex flex-col gap-10 justify-between  px-6 py-10">
-      <h1 className="w-full text-center text-2xl text-black font-bold">{vote?.voteTitle}</h1>
-      <ul
-        className={clsx(
-          'h-[28rem] w-full grid gap-x-4 gap-y-6 overflow-y-scroll',
-          participantMoreThanSix ? 'grid-cols-3' : 'grid-cols-2',
-        )}
-      >
-        {vote?.participantList.map(({ participantsId, participantsName, isNameSelected }) => (
-          <li
-            key={participantsId}
-            onClick={() => changeUser(participantsName)}
-            className={clsx(
-              'h-32 flex justify-center items-center relative rounded-lg overflow-hidden bg-indigo-50 border-2 border-solid cursor-pointer',
-              selectedUserName === participantsName ? 'border-indigo-200' : 'border-gray-100',
-            )}
-          >
-            <p className="text-lg font-bold">{participantsName}</p>
-            {isNameSelected && (
-              <Image
-                src="/images/marker.png"
-                width={30}
-                height={30}
-                alt="doneVote icon"
-                className="absolute top-3 right-3"
-              />
-            )}
-          </li>
-        ))}
-      </ul>
+    <div className="container flex flex-col gap-8 justify-between">
+      <div className="w-full flex flex-col gap-2 items-center">
+        <h1 className="text-2xl font-bold">{vote?.voteTitle}</h1>
+        <p className="text-gray-400">{vote?.voteDescription}</p>
+      </div>
+      <div className="flex flex-col gap-4">
+        <p className="text-center font-semibold">투표자 이름을 선택해주세요</p>
+        <ul
+          className={clsx(
+            'h-[25rem] w-full grid gap-4 overflow-y-scroll rounded-lg',
+            participantMoreThanSix ? 'grid-cols-3' : 'grid-cols-2',
+          )}
+        >
+          {vote?.participantList.map(({ participantsId, participantsName, isNameSelected }) => (
+            <li
+              key={participantsId}
+              onClick={() => changeUser(participantsName)}
+              className={clsx(
+                'h-[8rem] flex justify-center items-center relative rounded-lg overflow-hidden bg-indigo-50 border-2 border-solid cursor-pointer',
+                selectedUserName === participantsName ? 'border-indigo-200' : 'border-gray-100',
+              )}
+            >
+              <p className="font-medium">{participantsName}</p>
+              {isNameSelected && (
+                <Image
+                  src="/images/marker.png"
+                  width={30}
+                  height={30}
+                  alt="doneVote icon"
+                  className="absolute top-3 right-3"
+                />
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
       {vote && (
-        <>
-          <Button
-            type="button"
-            className={`h-16 ${hasSelectedUserName ? 'opacity-100' : 'opacity-60'}`}
-            disabled={!hasSelectedUserName}
-            onClick={() =>
-              router.push(
-                vote.overed || isCompleted
-                  ? `/result/?roomCode=${roomCode}&roomId=${roomId}`
-                  : `/vote/?username=${selectedUserName}&roomCode=${roomCode}`,
-              )
-            }
-          >
-            {vote.overed || isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
-          </Button>
-        </>
+        <Button
+          type="button"
+          className={`h-16 ${hasSelectedUserName ? 'opacity-100' : 'opacity-60'}`}
+          disabled={!hasSelectedUserName}
+          onClick={() =>
+            router.push(
+              vote.overed || isCompleted
+                ? `/result/?roomCode=${roomCode}&roomId=${roomId}`
+                : `/vote/?username=${selectedUserName}&roomCode=${roomCode}`,
+            )
+          }
+        >
+          {vote.overed || isCompleted ? '투표결과 보러가기' : '투표하러 가기'}
+        </Button>
       )}
     </div>
   );

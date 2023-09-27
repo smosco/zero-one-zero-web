@@ -54,36 +54,37 @@ export default function VoteResultPage() {
     fetchVoteResult();
   }, [roomCode, roomId]);
 
-  // console.log(voteResult);
-
   return (
-    <main className="flex flex-col h-screen justify-between items-center py-10 px-8">
-      {voteResult?.result?.length === 0 && <p>투표 항목이 없어요. 다시 만들어 주세요.</p>}
-      <div className="flex flex-col items-center">
-        <h1 className="text-2xl font-bold text-center">{voteTitle}</h1>
-        <span className="w-20 text-center text-sm bg-indigo-400 text-white text-bold rounded-[18px] p-1 mt-4">
-          {voteData?.overed ? '종료됨' : '진행중'}
-        </span>
-      </div>
-
-      <ul className="w-full flex flex-col justify-evenly gap-4 relative">
-        <Image className="mr-1" width={15} height={15} src="/image/user.svg" alt="person" />
-        {voteResult?.result.map((item) => (
-          <VoteResultItem key={item.voteValueId} vote={item} peopleMaxSize={voteResult?.peopleMaxSize} />
-        ))}
-        <div className="absolute -top-8 right-0 flex justify-end items-center">
-          <Image className="mr-1" width={15} height={15} src="/image/user.svg" alt="person" />
-          <p>
-            {cumulativeVoteCount}/{peopleMaxSize}
-          </p>
+    <main className="container overflow-y-scroll justify-between flex flex-col gap-8">
+      {voteResult?.result?.length === 0 && <p className="container">투표 항목이 없어요.</p>}
+      <div className="flex flex-col gap-16">
+        <div className="flex flex-col gap-2 items-center">
+          <h1 className="text-2xl font-bold text-center">{voteTitle}</h1>
+          <span className="w-20 text-center text-sm bg-indigo-400 text-white text-bold rounded-[18px] p-1">
+            {voteData?.overed ? '종료됨' : '진행중'}
+          </span>
         </div>
-      </ul>
+        <ul className="flex flex-col justify-evenly gap-4 relative">
+          {voteResult?.result.map((item) => (
+            <VoteResultItem key={item.voteValueId} vote={item} peopleMaxSize={voteResult?.peopleMaxSize} />
+          ))}
+          <div className="absolute -top-8 right-0 flex justify-end items-center">
+            <Image className="mr-1" width={15} height={15} src="/image/user.svg" alt="person" />
+            <p>
+              {cumulativeVoteCount}/{peopleMaxSize}
+            </p>
+          </div>
+        </ul>
+      </div>
       {voteData?.overed ? (
         voteData.nonParticipantList.length === 0 ? null : (
-          <Penalty nonParticipantList={voteData.nonParticipantList} />
+          <>
+            <Penalty nonParticipantList={voteData.nonParticipantList} />
+            <VoteMenu roomCode={roomCode} roomId={Number(roomId)} back={true} />
+          </>
         )
       ) : (
-        <VoteMenu roomCode={roomCode} roomId={Number(roomId)} />
+        <VoteMenu roomCode={roomCode} roomId={Number(roomId)} end={true} back={true} />
       )}
     </main>
   );

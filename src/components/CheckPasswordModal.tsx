@@ -76,7 +76,7 @@ export default function CheckPasswordModal({ roomId, onClose }: CheckPasswordMod
                   <Dialog.Title className="text-xl font-semibold text-gray-900">비밀번호 확인</Dialog.Title>
                   <form className="flex flex-col" onSubmit={onFormSubmit}>
                     <input
-                      className="h-12 border-[1.5px] rounded-md p-3 outline-indigo-300 mb-2"
+                      className="h-12 border-[1.5px] rounded-md p-3 outline-indigo-200 mb-2"
                       placeholder="비밀번호를 입력해주세요"
                       type="password"
                       onKeyDown={onPasswordKeyDown}

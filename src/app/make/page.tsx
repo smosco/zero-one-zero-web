@@ -79,23 +79,13 @@ export default function Make() {
 
   // 투표 저장
   const submitVote = async () => {
-    /** @todo API 통합 */
     const { voteTitle, creatorName, modifyCode, voteDescription } = voteInputInfo;
-
-    // console.log({
-    //   voteTitle,
-    //   creatorName,
-    //   voteDescription, // API 상으로 뺄 수 있으면 빼기로 하고
-    //   selectList: voteList.filter((vote) => vote !== ''),
-    //   participantList,
-    //   modifyCode,
-    // });
 
     try {
       const { roomCode } = await createVote({
         voteTitle,
         creatorName,
-        voteDescription, // API 상으로 뺄 수 있으면 빼기로 하고
+        voteDescription,
         selectList: voteList.filter((vote) => vote !== ''),
         participantList,
         modifyCode,
@@ -107,46 +97,57 @@ export default function Make() {
   };
 
   return (
-    <div className="flex flex-col gap-y-4 px-8 py-10">
-      <h1 className="text-center">투표 만들기</h1>
-      <TextField placeholder="투표 제목" value={voteInputInfo.voteTitle} name="voteTitle" onChange={handleVoteInput} />
-      <TextField
-        placeholder="투표 작성자"
-        value={voteInputInfo.creatorName}
-        name="creatorName"
-        onChange={handleVoteInput}
-      />
-      <TextArea
-        className="px-3 py-3 border rounded-lg"
-        placeholder="내용"
-        value={voteInputInfo.voteDescription}
-        name="voteDescription"
-        onChange={handleVoteInput}
-      />
-      <ul className="flex flex-col gap-y-4">
-        {voteList.map((vote, idx) => (
-          <VoteItemInput
-            key={idx}
-            itemName={vote}
-            itemNameChange={changeVoteItemList(idx)}
-            itemDelete={deleteVoteItemList(idx)}
-            preventItemDelete={voteRemoveDisabled}
-          />
-        ))}
-        <li>
-          <Button onClick={addVoteInput} disabled={voteAddDisabled}>
-            투표 항목 추가
-          </Button>
-        </li>
-      </ul>
-      <h2>참가자 명단</h2>
-      <div>
-        <ul className="grid grid-cols-3 gap-4">
+    <div className="container flex flex-col overflow-y-scroll gap-8">
+      <h1 className="text-center text-xl font-semibold">투표를 만들어 보아요</h1>
+      <div className="w-full flex flex-col gap-4">
+        <TextField
+          placeholder="투표 제목"
+          value={voteInputInfo.voteTitle}
+          name="voteTitle"
+          onChange={handleVoteInput}
+        />
+        <TextField
+          placeholder="투표 작성자"
+          value={voteInputInfo.creatorName}
+          name="creatorName"
+          onChange={handleVoteInput}
+        />
+        <TextArea
+          placeholder="내용"
+          value={voteInputInfo.voteDescription}
+          name="voteDescription"
+          onChange={handleVoteInput}
+        />
+        <ul className="flex flex-col gap-y-4">
+          {voteList.map((vote, idx) => (
+            <VoteItemInput
+              key={idx}
+              itemName={vote}
+              itemNameChange={changeVoteItemList(idx)}
+              itemDelete={deleteVoteItemList(idx)}
+              preventItemDelete={voteRemoveDisabled}
+            />
+          ))}
+          <li>
+            <Button onClick={addVoteInput} disabled={voteAddDisabled}>
+              투표 항목 추가
+            </Button>
+          </li>
+        </ul>
+      </div>
+
+      <div className="flex flex-col gap-4">
+        <div className="flex items-center">
+          <h2 className="text-lg font-bold">참가자 명단</h2>&nbsp;
+          <p className="text-sm font-normal text-gray-400">( ※ 투표 작성자를 포함해주세요 )</p>
+        </div>
+        <TextField placeholder="참가자 입력" disabled={participantAddDisabled} onKeyUp={addParticipant} />
+        <ul className="flex flex-wrap gap-2">
           {participantList.length !== 0 &&
             participantList.map((participant, idx) => (
               <li
                 key={idx}
-                className="flex items-center justify-center gap-2 w-fit py-2 px-4 rounded-3xl bg-indigo-500 text-white "
+                className="flex items-center justify-center gap-2 w-fit py-1 px-3 rounded-3xl bg-indigo-500 text-white"
               >
                 {participant}
                 <button type="button" onClick={deleteParticipant(idx)} className="">
@@ -155,8 +156,6 @@ export default function Make() {
               </li>
             ))}
         </ul>
-        <TextField placeholder="참가자 입력" disabled={participantAddDisabled} onKeyUp={addParticipant} />
-        <p>투표 작성자 포함해주세요</p>
       </div>
       <TextField
         type="password"
@@ -165,6 +164,7 @@ export default function Make() {
         value={voteInputInfo.modifyCode}
         onChange={handleVoteInput}
       />
+
       <Button onClick={submitVote}>투표 저장</Button>
     </div>
   );

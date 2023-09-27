@@ -1,17 +1,17 @@
 import CheckPasswordModal from '@/components/CheckPasswordModal';
-import { RoomContext } from '@/context/RoomContext';
-import { useContext, useState } from 'react';
-import Button from './Button';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import ShareModal from './ShareModal';
 
 type VoteMenuProps = {
   roomCode: string | null;
   roomId: number | null;
+  end?: boolean;
+  back?: boolean;
 };
 
-export default function VoteMenu({ roomCode, roomId }: VoteMenuProps) {
-  // const { roomCode, roomId } = useContext(RoomContext);
-
+export default function VoteMenu({ roomCode, roomId, back, end }: VoteMenuProps) {
+  const router = useRouter();
   const [shareOpen, setShareOpen] = useState<boolean>(false);
 
   const [mode, setMode] = useState<'' | 'end'>('');
@@ -33,15 +33,28 @@ export default function VoteMenu({ roomCode, roomId }: VoteMenuProps) {
     setShareOpen(true);
   };
 
+  const onGoBackClick = () => {
+    router.push('/');
+  };
+
   return (
     <>
-      <div className="w-full flex justify-center items-center gap-4">
-        <Button type="button" onClick={onShareClick}>
-          공유하기
-        </Button>
-        <Button type="button" onClick={onEndClick}>
-          투표 종료
-        </Button>
+      <div className={`w-full flex ${back ? 'justify-between' : 'justify-end'} items-center`}>
+        {back && (
+          <button className="hover:underline text-sm" onClick={onGoBackClick}>
+            투표 만들러 가기
+          </button>
+        )}
+        <div className="flex items-center gap-2">
+          <button className="hover:underline text-sm" onClick={onShareClick}>
+            공유하기
+          </button>
+          {end && (
+            <button className="hover:underline text-sm" onClick={onEndClick}>
+              투표종료
+            </button>
+          )}
+        </div>
       </div>
 
       {shareOpen && <ShareModal onClose={onShareClose} roomCode={roomCode!} />}
