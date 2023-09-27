@@ -60,7 +60,7 @@ export default function Participant() {
   return (
     <div className="container flex flex-col gap-8 justify-between">
       <div className="w-full flex flex-col gap-2 items-center">
-        <h1 className="text-2xl font-semibold">{vote?.voteTitle}</h1>
+        <h1 className="text-2xl font-bold">{vote?.voteTitle}</h1>
         <p className="text-gray-400">{vote?.voteDescription}</p>
       </div>
       <div className="flex flex-col gap-4">
