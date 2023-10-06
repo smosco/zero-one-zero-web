@@ -2,7 +2,7 @@
 
 공유-일정-공감 서비스의 투표 기능만 구현한 서비스입니다.
 
-![대표이미지](https://github.com/kis-sprint/zero-one-zero-web/assets/62870362/4117fc7f-8ca8-4fde-aa0a-0a47b5e3931b)
+![대표이미지](https://github.com/kis-sprint/zero-one-zero-web/assets/62870362/2b29d218-0409-4953-a96d-fa2eb5771caf)
 
 🔗 서비스 링크 : https://zero-one-zero-web.vercel.app/
 
