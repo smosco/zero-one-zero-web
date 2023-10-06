@@ -14,7 +14,7 @@
 
 </br>
 
-![대표이미지](https://github.com/kis-sprint/zero-one-zero-web/assets/62870362/4117fc7f-8ca8-4fde-aa0a-0a47b5e3931b)
+![대표이미지](https://github.com/kis-sprint/zero-one-zero-web/assets/62870362/fb04b638-f28a-4efb-a395-3bf38fc1403c)
 
 ## 🤼‍♂️ Team
 
